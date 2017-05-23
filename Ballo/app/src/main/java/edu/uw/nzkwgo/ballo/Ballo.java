@@ -84,6 +84,18 @@ public class Ballo {
         return !deathStatus.isEmpty();
     }
 
+    public int getHunger() {
+        return (int) hunger;
+    }
+
+    public int getHappiness() {
+        return (int) happiness;
+    }
+
+    public int getStrength() {
+        return (int) strength;
+    }
+
     public String getName() {
         return name;
     }
@@ -91,6 +103,42 @@ public class Ballo {
     public String getImgURL() {
         return imgURL;
     }
+
+    //Stat getter methods
+        public int getTimesFed() {
+            return timesFed;
+        }
+
+        public int getTimesBounced() {
+            return timesBounced;
+        }
+
+        public int getLowestHappiness() {
+            return (int) lowestHappiness;
+        }
+
+        public int getLowestStrength() {
+            return (int) lowestStrength;
+        }
+
+        public int getLowestHunger() {
+            return (int) lowestHunger;
+        }
+
+        public int getHighestStrength() {
+            return (int) highestStrength;
+        }
+
+        public double getDistanceWalked() {
+            return Math.round(distanceWalked * 100) / 100.0;
+        }
+
+        //returns Ballo's age in days
+        public int getAge() {
+            Date currentDate = new Date();
+            long diff = this.birthdate.getTime() - currentDate.getTime();
+            return (int) diff / (24 * 60 * 60 * 1000);
+        }
 
     //Sets hunger. Cannot exceed 100. Ballo dies when hunger drops below 0
     private void setHunger(double hunger) {
@@ -136,52 +184,4 @@ public class Ballo {
     private void kill(String status) {
         this.deathStatus = status;
     }
-
-    //Stat getter methods
-        //returns Ballo's age in days
-        public int getAge() {
-            Date currentDate = new Date();
-            long diff = this.birthdate.getTime() - currentDate.getTime();
-            return (int) diff / (24 * 60 * 60 * 1000);
-        }
-
-        public int getHunger() {
-            return (int) hunger;
-        }
-
-        public int getHappiness() {
-            return (int) happiness;
-        }
-
-        public int getStrength() {
-            return (int) strength;
-        }
-
-        public double getDistanceWalked() {
-            return Math.round(distanceWalked * 100) / 100.0;
-        }
-
-        public int getTimesFed() {
-            return timesFed;
-        }
-
-        public int getTimesBounced() {
-            return timesBounced;
-        }
-    
-        public int getLowestHappiness() {
-            return (int) lowestHappiness;
-        }
-
-        public int getLowestStrength() {
-            return (int) lowestStrength;
-        }
-
-        public int getLowestHunger() {
-            return (int) lowestHunger;
-        }
-
-        public int getHighestStrength() {
-            return (int) highestStrength;
-        }
 }
