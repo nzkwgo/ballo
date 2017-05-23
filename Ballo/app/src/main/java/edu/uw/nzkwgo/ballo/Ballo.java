@@ -21,7 +21,7 @@ public class Ballo {
     private double lowestHunger;
     private double highestStrength;
     private String deathStatus;
-    private String imgURL; //TODO: Change Ballo image based on stats once we have all the assets
+    private String imgURL;
 
     public Ballo(String name) {
         this.name = name;
@@ -37,7 +37,7 @@ public class Ballo {
         this.lowestHunger = 100;
         this.highestStrength = 100;
         this.deathStatus = "";
-        this.imgURL = "ballo_default_image.png"; //TODO: change
+        this.imgURL = "@drawable/Basic_Ballo.png";
     }
 
     public Ballo() {
@@ -71,12 +71,14 @@ public class Ballo {
         distanceWalked += 0.25;
     }
 
-    //Depreciates the stats
+    //Depreciates the stats while Ballo is alive
     //Should be called every 15 minutes
     public void depreciateStats() {
-        setHappiness(happiness - 1);
-        setHunger(hunger - 0.5);
-        setStrength(strength - 0.25);
+        if (!this.isDead()) {
+            setHappiness(happiness - 1);
+            setHunger(hunger - 0.5);
+            setStrength(strength - 0.25);
+        }
     }
 
     //returns whether or not Ballo is dead
@@ -102,6 +104,15 @@ public class Ballo {
 
     public String getImgURL() {
         return imgURL;
+    }
+
+    //Returns the sprite to be used while Ballo is on a walk
+    public String getExerciseURL() {
+        if (this.strength >= 50) {
+            return "@drawable/Healthy_Exercise_Ballo.png";
+        } else {
+            return "@drawable/Unhealthy_Exercise_Ballo.png";
+        }
     }
 
     //Stat getter methods
@@ -148,6 +159,8 @@ public class Ballo {
         } else if (this.hunger <= 0) {
             this.hunger = 0;
             kill(this.name + " starved to death. \nTip: Feed your Ballo so it doesn't starve!");
+        } else if (this.hunger < 50) {
+            updateImg();
         }
 
         lowestHunger = Math.min(this.hunger, lowestHunger);
@@ -162,6 +175,8 @@ public class Ballo {
         } else if (this.happiness <= 0) {
             this.happiness = 0;
             kill(this.name + " died of a broken heart. \nTip: Play with your Ballo to raise its happiness!");
+        } else if (this.happiness < 50) {
+            updateImg();
         }
 
         lowestHappiness = Math.min(this.happiness, lowestHappiness);
@@ -174,6 +189,8 @@ public class Ballo {
         if (this.strength <= 0) {
             this.strength = 0;
             kill(this.name + " got too weak and died. Next time walk it more often!");
+        } else if (this.strength < 50) {
+            updateImg();
         }
 
         highestStrength = Math.max(this.strength, highestStrength);
@@ -183,5 +200,19 @@ public class Ballo {
     //Kills ballo, setting his death message to the passed string
     private void kill(String status) {
         this.deathStatus = status;
+        imgURL = "@drawable/Dead_Ballo.png";
+    }
+
+    //Updates Ballo's sprite to reflect his lowest stat under 50
+    private void updateImg() {
+        if (hunger > 50 && happiness > 50 && strength > 50) {
+            imgURL = "@drawable/Basic_Ballo.png";
+        } else if (hunger < 50 && hunger <= happiness && hunger <= strength) {
+            imgURL = "@drawable/Hungry_Ballo.png";
+        } else if (happiness < 50 && happiness <= hunger && happiness <= strength) {
+            imgURL = "@drawable/Sad_Ballo.png";
+        } else if (strength < 50 && strength <= hunger && strength <= happiness) {
+            imgURL = "@drawable/Unhealthy_Ballo.png";
+        }
     }
 }
