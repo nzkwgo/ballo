@@ -54,9 +54,11 @@ public class Ballo {
 
     }
 
-    public Date getAge() {
-
-        return birthdate;
+    //returns Ballo's age in days
+    public int getAge() {
+        Date currentDate = new Date();
+        long diff = this.birthdate.getTime() - currentDate.getTime();
+        return (int) diff / (24 * 60 * 60 * 1000);
     }
 
     //Sets hunger. Cannot exceed 100. Ballo dies when hunger drops below 0
