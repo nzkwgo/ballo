@@ -43,15 +43,29 @@ public class Ballo {
     }
 
     public void feed() {
-
+        if (hunger < 100) {
+            setHunger(hunger + 10);
+        } else {
+            setHappiness(happiness - 5);
+        }
+        timesFed++;
     }
 
+    //TODO: Make bounce return coordinates for animation
     public void bounce() {
-
+        if (happiness < 100) {
+            setHappiness(happiness + 2);
+        } else {
+            setStrength(strength - 1);
+        }
+        timesBounced++;
     }
 
     public void walk() {
-
+        setStrength(strength + 10);
+        setHunger(hunger - 5);
+        int placeHolderDistance = 0; //TODO: Figure out distance update
+        distanceWalked += placeHolderDistance;
     }
 
     //returns Ballo's age in days
