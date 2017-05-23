@@ -20,7 +20,7 @@ public class Ballo {
     private int lowestStrength;
     private int lowestHunger;
     private int highestStrength;
-    private boolean isDead;
+    private String deathStatus;
 
     public Ballo(String name) {
         this.name = name;
@@ -35,15 +35,11 @@ public class Ballo {
         this.lowestStrength = 100;
         this.lowestHunger = 100;
         this.highestStrength = 100;
-        this.isDead = false;
+        this.deathStatus = "";
     }
 
     public Ballo() {
         this("Ballo");
-    }
-
-    public void killBallo() {
-        this.isDead = true;
     }
 
     public void feed() {
@@ -70,7 +66,7 @@ public class Ballo {
             this.hunger = 100;
         } else if (this.hunger <= 0) {
             this.hunger = 0;
-            killBallo();
+            kill(this.name + " starved to death. Next time feed it more often!");
         }
 
         lowestHunger = Math.min(this.hunger, lowestHunger);
@@ -84,7 +80,7 @@ public class Ballo {
             this.happiness = 100;
         } else if (this.happiness <= 0) {
             this.happiness = 0;
-            killBallo();
+            kill(this.name + " died of a broken heart. Next time play with it more often!");
         }
 
         lowestHappiness = Math.min(this.happiness, lowestHappiness);
@@ -96,11 +92,21 @@ public class Ballo {
 
         if (this.strength <= 0) {
             this.strength = 0;
-            killBallo();
+            kill(this.name + " got too weak and died. Next time walk it more often!");
         }
 
         highestStrength = Math.max(this.strength, highestStrength);
         lowestStrength = Math.min(this.strength, lowestStrength);
+    }
+
+    //Kills ballo, setting his death message to
+    public void kill(String status) {
+        this.deathStatus = status;
+    }
+
+    //returns whether or not ballo is dead
+    public boolean isDead() {
+        return !deathStatus.isEmpty();
     }
 
     public int getHunger() {
