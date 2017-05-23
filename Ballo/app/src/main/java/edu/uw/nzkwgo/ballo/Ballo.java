@@ -20,6 +20,7 @@ public class Ballo {
     private int lowestStrength;
     private int lowestHunger;
     private int highestStrength;
+    private boolean isDead;
 
     public Ballo(String name) {
         this.name = name;
@@ -34,6 +35,7 @@ public class Ballo {
         this.lowestStrength = 100;
         this.lowestHunger = 100;
         this.highestStrength = 100;
+        this.isDead = false;
     }
 
     public Ballo() {
@@ -41,7 +43,7 @@ public class Ballo {
     }
 
     public void killBallo() {
-
+        this.isDead = true;
     }
 
     public void feed() {
@@ -61,21 +63,44 @@ public class Ballo {
         return birthdate;
     }
 
+    //Sets hunger. Cannot exceed 100. Ballo dies when hunger drops below 0
     public void setHunger(int hunger) {
         this.hunger = hunger;
         if (this.hunger > 100) {
             this.hunger = 100;
         } else if (this.hunger <= 0) {
+            this.hunger = 0;
             killBallo();
         }
+
+        lowestHunger = Math.min(this.hunger, lowestHunger);
     }
 
+    //Sets happiness. Cannot exceed 100. Ballo dies when happiness drops below 0
     public void setHappiness(int happiness) {
         this.happiness = happiness;
+
+        if (this.happiness > 100) {
+            this.happiness = 100;
+        } else if (this.happiness <= 0) {
+            this.happiness = 0;
+            killBallo();
+        }
+
+        lowestHappiness = Math.min(this.happiness, lowestHappiness);
     }
 
+    //Sets strength. Ballo dies when strength drops below 0
     public void setStrength(int strength) {
         this.strength = strength;
+
+        if (this.strength <= 0) {
+            this.strength = 0;
+            killBallo();
+        }
+
+        highestStrength = Math.max(this.strength, highestStrength);
+        lowestStrength = Math.min(this.strength, lowestStrength);
     }
 
     public int getHunger() {
