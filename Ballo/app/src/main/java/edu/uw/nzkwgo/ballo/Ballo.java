@@ -21,7 +21,7 @@ public class Ballo {
     private double lowestHunger;
     private double highestStrength;
     private String deathStatus;
-    private String imgURL; //TODO: Change Ballo image based on stats once we have all the assets
+    private String imgURL;
 
     public Ballo(String name) {
         this.name = name;
@@ -37,7 +37,7 @@ public class Ballo {
         this.lowestHunger = 100;
         this.highestStrength = 100;
         this.deathStatus = "";
-        this.imgURL = "@drawable/Basic_Ballo.png"; //TODO: change
+        this.imgURL = "@drawable/Basic_Ballo.png";
     }
 
     public Ballo() {
