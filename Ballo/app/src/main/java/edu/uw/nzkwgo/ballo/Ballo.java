@@ -21,6 +21,7 @@ public class Ballo {
     private int lowestHunger;
     private int highestStrength;
     private String deathStatus;
+    private String imgURL; //TODO: Change Ballo image based on stats once we have all the assets
 
     public Ballo(String name) {
         this.name = name;
@@ -82,7 +83,7 @@ public class Ballo {
             this.hunger = 100;
         } else if (this.hunger <= 0) {
             this.hunger = 0;
-            kill(this.name + " starved to death. Next time feed it more often!");
+            kill(this.name + " starved to death. \nTip: Feed your Ballo so it doesn't starve!");
         }
 
         lowestHunger = Math.min(this.hunger, lowestHunger);
@@ -96,7 +97,7 @@ public class Ballo {
             this.happiness = 100;
         } else if (this.happiness <= 0) {
             this.happiness = 0;
-            kill(this.name + " died of a broken heart. Next time play with it more often!");
+            kill(this.name + " died of a broken heart. \nTip: Play with your Ballo to raise its happiness!");
         }
 
         lowestHappiness = Math.min(this.happiness, lowestHappiness);
