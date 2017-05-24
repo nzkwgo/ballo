@@ -1,41 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/leaderboardTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Leaderboard"
-        android:textSize="30dp"
-        android:gravity="center"
-        />
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.uw.nzkwgo.ballo.LeaderboardActivity">
 
-    <EditText
-        android:id="@+id/inputName"
-        android:layout_width="200sp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/leaderboardTitle"
-        android:layout_marginLeft="50sp"
-        android:layout_marginTop="10sp"
-        android:hint="Your name"
-        />
+    <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteY="8dp"
+            tools:layout_editor_absoluteX="8dp"
+            android:id="@+id/leaderboardList"/>
+</LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/inputName"
-        android:layout_alignBottom="@id/inputName"
-        android:text="Set"
-        />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/inputName"
-        android:layout_marginTop="30sp"
-        android:gravity="center"
-        android:text="Noah - 1343\nKodlee - 1235\nSong - 800\nTiffany - 102"
-        />
-
-</RelativeLayout>
