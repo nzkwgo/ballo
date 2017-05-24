@@ -9,6 +9,8 @@ import (
     "fmt"
     "log"
     "os"
+    "crypto/sha512"
+    "encoding/base64"
 )
 
 const (
@@ -78,6 +80,11 @@ func (l *Leaderboard) scoreHandler(w http.ResponseWriter, r *http.Request) {
             http.Error(w, "Failed to decode json: " + err.Error(), http.StatusBadRequest)
             return
         }
+
+        // Hash id so we're not building a database of IMEIs lel
+        hasher := sha512.New()
+        hasher.Write([]byte(entry.DeviceID))
+        entry.DeviceID = DeviceID(base64.URLEncoding.EncodeToString(hasher.Sum(nil)))
 
         // Insert or update
         i, err := l.C.UpsertId(entry.DeviceID, bson.M{ "$set": entry })
