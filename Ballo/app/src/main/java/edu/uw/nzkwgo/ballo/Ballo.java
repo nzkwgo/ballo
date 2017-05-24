@@ -37,7 +37,7 @@ public class Ballo {
         this.lowestHunger = 100;
         this.highestStrength = 100;
         this.deathStatus = "";
-        this.imgURL = "@drawable/Basic_Ballo.png";
+        this.imgURL = "@drawable/basic_ballo.png";
     }
 
     public Ballo() {
@@ -109,9 +109,9 @@ public class Ballo {
     //Returns the sprite to be used while Ballo is on a walk
     public String getExerciseURL() {
         if (this.strength >= 50) {
-            return "@drawable/Healthy_Exercise_Ballo.png";
+            return "@drawable/healthy_exercise_ballo.png";
         } else {
-            return "@drawable/Unhealthy_Exercise_Ballo.png";
+            return "@drawable/unhealthy_exercise_ballo.png";
         }
     }
 
@@ -200,19 +200,19 @@ public class Ballo {
     //Kills ballo, setting his death message to the passed string
     private void kill(String status) {
         this.deathStatus = status;
-        imgURL = "@drawable/Dead_Ballo.png";
+        imgURL = "@drawable/dead_ballo.png";
     }
 
     //Updates Ballo's sprite to reflect his lowest stat under 50
     private void updateImg() {
         if (hunger > 50 && happiness > 50 && strength > 50) {
-            imgURL = "@drawable/Basic_Ballo.png";
+            imgURL = "@drawable/basic_ballo.png";
         } else if (hunger < 50 && hunger <= happiness && hunger <= strength) {
-            imgURL = "@drawable/Hungry_Ballo.png";
+            imgURL = "@drawable/hungry_ballo.png";
         } else if (happiness < 50 && happiness <= hunger && happiness <= strength) {
-            imgURL = "@drawable/Sad_Ballo.png";
+            imgURL = "@drawable/sad_ballo.png";
         } else if (strength < 50 && strength <= hunger && strength <= happiness) {
-            imgURL = "@drawable/Unhealthy_Ballo.png";
+            imgURL = "@drawable/unhealthy_ballo.png";
         }
     }
 }
