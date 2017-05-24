@@ -29,7 +29,7 @@ public class DrawingSurfaceView extends SurfaceView implements SurfaceHolder.Cal
     private Paint whitePaint; //drawing variables (pre-defined for speed)
     private Paint goldPaint; //drawing variables (pre-defined for speed)
 
-    public Ball ball; //public for easy access
+    public Ballo ballo; //public for easy access
 
 
     /**
@@ -113,7 +113,7 @@ public class DrawingSurfaceView extends SurfaceView implements SurfaceHolder.Cal
      */
     public synchronized void render(Canvas canvas) {
         if (canvas == null) return; //if we didn't get a valid canvas for whatever reason
-        
+
         canvas.drawCircle(ball.cx, ball.cy, ball.radius, whitePaint); //we can draw directly onto the canvas
     }
 
