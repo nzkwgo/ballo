@@ -113,9 +113,7 @@ public class DrawingSurfaceView extends SurfaceView implements SurfaceHolder.Cal
      */
     public synchronized void render(Canvas canvas) {
         if (canvas == null) return; //if we didn't get a valid canvas for whatever reason
-
-        canvas.drawColor(Color.rgb(51, 10, 111)); //purple out the background
-
+        
         canvas.drawCircle(ball.cx, ball.cy, ball.radius, whitePaint); //we can draw directly onto the canvas
     }
 
