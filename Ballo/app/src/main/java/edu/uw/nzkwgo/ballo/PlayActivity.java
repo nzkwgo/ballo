@@ -58,17 +58,22 @@ public class PlayActivity extends AppCompatActivity implements SensorEventListen
                 if (acceleration > SHAKE_THRESHOLD) {
                     mLastShakeTime = curTime;
                     //Shook
-                    ObjectAnimator upAnim = ObjectAnimator.ofFloat(view.ballo, "Cy", 500);
-                    upAnim.setDuration(500);
-                    ObjectAnimator downAnim = ObjectAnimator.ofFloat(view.ballo, "Cy", view.getHeight() - 400);
-                    downAnim.setDuration(500);
-
-                    AnimatorSet set = new AnimatorSet();
-                    set.playSequentially(downAnim, upAnim);
-                    set.start();
+                    bounceAnim();
+                    ballo.bounce();
                 }
             }
         }
+    }
+
+    public void bounceAnim() {
+        ObjectAnimator upAnim = ObjectAnimator.ofFloat(view.ballo, "Cy", 500);
+        upAnim.setDuration(500);
+        ObjectAnimator downAnim = ObjectAnimator.ofFloat(view.ballo, "Cy", view.getHeight() - 400);
+        downAnim.setDuration(400);
+
+        AnimatorSet set = new AnimatorSet();
+        set.playSequentially(upAnim, downAnim);
+        set.start();
     }
 
     @Override

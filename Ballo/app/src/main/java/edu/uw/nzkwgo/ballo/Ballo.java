@@ -59,7 +59,6 @@ public class Ballo {
         timesFed++;
     }
 
-    //TODO: Make bounce return coordinates for animation
     public void bounce() {
         if (happiness < 100) {
             setHappiness(happiness + 2);
@@ -166,6 +165,7 @@ public class Ballo {
         }
 
         public void setCy(float cy) {
+            imgURL = "excited_ballo";
             this.cy = cy;
         }
 

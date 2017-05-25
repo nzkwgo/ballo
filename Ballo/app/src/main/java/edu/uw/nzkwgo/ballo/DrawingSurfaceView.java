@@ -64,7 +64,7 @@ public class DrawingSurfaceView extends SurfaceView implements SurfaceHolder.Cal
     public void init() {
         //make ball
         ballo = new Ballo(); //todo replace with real ballo
-        ballo.cy = ballo.startingPosition;
+        ballo.cy = viewHeight - 400;
     }
 
 
