@@ -116,7 +116,7 @@
                 android:textColor="black"
                 android:textSize="9pt"/>
             <TextView
-                android:id="@+id/lowest_health"
+                android:id="@+id/stats_lowest_health"
                 android:text="3"
                 android:textColor="black"
                 android:textSize="9pt"/>
