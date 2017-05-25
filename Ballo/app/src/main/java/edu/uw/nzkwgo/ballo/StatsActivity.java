@@ -9,9 +9,9 @@ public class StatsActivity extends AppCompatActivity {
     private TextView bounce;
     private TextView distance;
     private TextView fed;
-    private TextView highestHealth;
+    private TextView lowestHappiness;
     private TextView highestStrength;
-    private TextView lowestHealth;
+    private TextView lowestHunger;
     private TextView lowestStrength;
 
     @Override
@@ -24,9 +24,19 @@ public class StatsActivity extends AppCompatActivity {
         bounce = (TextView) findViewById(R.id.stats_bounce);
         distance = (TextView) findViewById(R.id.stats_distance);
         fed = (TextView) findViewById(R.id.stats_fed);
-        highestHealth = (TextView) findViewById(R.id.stats_highest_health);
+        lowestHappiness = (TextView) findViewById(R.id.stats_lowest_happiness);
         highestStrength = (TextView) findViewById(R.id.stats_highest_strength);
-        lowestHealth = (TextView) findViewById(R.id.stats_lowest_health);
+        lowestHunger = (TextView) findViewById(R.id.stats_lowest_health);
         lowestStrength = (TextView) findViewById(R.id.stats_lowest_strength);
+
+        Ballo ballo = new Ballo();
+        age.setText("" + ballo.getAge());
+        bounce.setText("" + ballo.getTimesBounced());
+        distance.setText("" + ballo.getDistanceWalked());
+        fed.setText("" + ballo.getTimesFed());
+        lowestHappiness.setText("" + ballo.getLowestHappiness());
+        highestStrength.setText("" + ballo.getHighestStrength());
+        lowestHunger.setText("" + ballo.getLowestHunger());
+        lowestStrength.setText("" + ballo.getLowestStrength());
     }
 }
