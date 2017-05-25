@@ -21,5 +21,7 @@
             android:layout_weight="0"
             android:layout_height="wrap_content"
             android:id="@+id/leaderboardElementScore"
-            android:textAlignment="textEnd"/>
+            android:textAlignment="textEnd"
+            android:gravity="right"
+        />
 </LinearLayout>

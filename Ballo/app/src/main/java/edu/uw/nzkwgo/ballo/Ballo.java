@@ -1,5 +1,7 @@
 package edu.uw.nzkwgo.ballo;
 
+import android.support.v7.app.AppCompatActivity;
+
 import java.util.Date;
 
 /**
@@ -37,7 +39,7 @@ public class Ballo {
         this.lowestHunger = 100;
         this.highestStrength = 100;
         this.deathStatus = "";
-        this.imgURL = "@drawable/basic_ballo.png";
+        this.imgURL = "basic_ballo";
     }
 
     public Ballo() {
@@ -61,6 +63,7 @@ public class Ballo {
             setStrength(strength - 1);
         }
         timesBounced++;
+        updateImg();
     }
 
     //Changes Ballo's stats based on a quarter mile's worth of walking.
@@ -102,16 +105,17 @@ public class Ballo {
         return name;
     }
 
+    //To get the R.drawable version of the url, call getResources().getIdentifier(ballo.getImgURL() , "drawable", getPackageName());
     public String getImgURL() {
         return imgURL;
     }
 
-    //Returns the sprite to be used while Ballo is on a walk
+    //Returns the sprite to be used while Ballo is on a walk. See comment on getImgURL
     public String getExerciseURL() {
         if (this.strength >= 50) {
-            return "@drawable/healthy_exercise_ballo.png";
+            return "healthy_exercise_ballo";
         } else {
-            return "@drawable/unhealthy_exercise_ballo.png";
+            return "unhealthy_exercise_ballo";
         }
     }
 
@@ -200,19 +204,19 @@ public class Ballo {
     //Kills ballo, setting his death message to the passed string
     private void kill(String status) {
         this.deathStatus = status;
-        imgURL = "@drawable/dead_ballo.png";
+        imgURL = "dead_ballo";
     }
 
     //Updates Ballo's sprite to reflect his lowest stat under 50
     private void updateImg() {
         if (hunger > 50 && happiness > 50 && strength > 50) {
-            imgURL = "@drawable/basic_ballo.png";
+            imgURL = "basic_ballo";
         } else if (hunger < 50 && hunger <= happiness && hunger <= strength) {
-            imgURL = "@drawable/hungry_ballo.png";
+            imgURL = "hungry_ballo";
         } else if (happiness < 50 && happiness <= hunger && happiness <= strength) {
-            imgURL = "@drawable/sad_ballo.png";
+            imgURL = "sad_ballo";
         } else if (strength < 50 && strength <= hunger && strength <= happiness) {
-            imgURL = "@drawable/unhealthy_ballo.png";
+            imgURL = "unhealthy_ballo";
         }
     }
 }
