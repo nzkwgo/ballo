@@ -46,9 +46,6 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
     private double dist;
 
 
-    //TODO: calculate distance from latlng
-    // https://stackoverflow.com/questions/6981916/how-to-calculate-distance-between-two-locations-using-their-longitude-and-latitu
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
