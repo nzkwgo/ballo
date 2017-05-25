@@ -61,7 +61,7 @@ public class Ballo {
     public static void saveBallo(Context ctx, Ballo ballo) {
         SharedPreferences pref =
                 ctx.getSharedPreferences(BALLO_PREFERENCE_STATE_ID, Context.MODE_PRIVATE);
-        pref.edit().putString(BALLO_OBJECT_ID, getGson().toJson(ballo)).apply();
+        pref.edit().putString(BALLO_OBJECT_ID, getGson().toJson(ballo)).commit();
     }
 
     private static Gson getGson() {
@@ -237,9 +237,12 @@ public class Ballo {
         }
 
         public void setCy(float cy) {
-            imgURL = "excited_ballo";
             this.cy = cy;
         }
+
+    public void setImgURL(String imgURL) {
+        this.imgURL = imgURL;
+    }
 
     //Sets hunger. Cannot exceed 100. Ballo dies when hunger drops below 0
     private void setHunger(double hunger) {
@@ -294,7 +297,7 @@ public class Ballo {
     }
 
     //Updates Ballo's sprite to reflect his lowest stat under 50
-    private void updateImg() {
+    public void updateImg() {
         if (hunger > 50 && happiness > 50 && strength > 50) {
             imgURL = BASIC_BALLO;
         } else if (hunger < 50 && hunger <= happiness && hunger <= strength) {

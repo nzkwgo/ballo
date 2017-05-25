@@ -28,7 +28,7 @@ public class PlayActivity extends AppCompatActivity implements SensorEventListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
-        ballo = new Ballo(); //todo: change to the shared Ballo
+        ballo = Ballo.getBallo(this);
 
         view = (DrawingSurfaceView)findViewById(R.id.drawingView);
 
@@ -60,12 +60,15 @@ public class PlayActivity extends AppCompatActivity implements SensorEventListen
                     //Shook
                     bounceAnim();
                     ballo.bounce();
+                    Ballo.saveBallo(this, ballo);
                 }
             }
         }
     }
 
     public void bounceAnim() {
+        view.ballo.setImgURL("excited_ballo");
+
         ObjectAnimator upAnim = ObjectAnimator.ofFloat(view.ballo, "Cy", 500);
         upAnim.setDuration(500);
         ObjectAnimator downAnim = ObjectAnimator.ofFloat(view.ballo, "Cy", view.getHeight() - 400);
@@ -74,6 +77,7 @@ public class PlayActivity extends AppCompatActivity implements SensorEventListen
         AnimatorSet set = new AnimatorSet();
         set.playSequentially(upAnim, downAnim);
         set.start();
+        view.ballo.updateImg();
     }
 
     @Override
