@@ -69,7 +69,7 @@ public class DrawingSurfaceView extends SurfaceView implements SurfaceHolder.Cal
      */
     public void init() {
         //make ball
-        ball = new Ball(viewWidth / 2, viewHeight / 2, 100);
+//        ball = new Ball(viewWidth / 2, viewHeight / 2, 100);
     }
 
 
@@ -114,7 +114,7 @@ public class DrawingSurfaceView extends SurfaceView implements SurfaceHolder.Cal
     public synchronized void render(Canvas canvas) {
         if (canvas == null) return; //if we didn't get a valid canvas for whatever reason
 
-        canvas.drawCircle(ball.cx, ball.cy, ball.radius, whitePaint); //we can draw directly onto the canvas
+//        canvas.drawCircle(ball.cx, ball.cy, ball.radius, whitePaint); //we can draw directly onto the canvas
     }
 
 
