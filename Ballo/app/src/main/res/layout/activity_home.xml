@@ -1,18 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="edu.uw.nzkwgo.ballo.HomeActivity">
+    android:layout_height="match_parent">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/homeName"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/home_name_placeholder"
+        android:textSize="30dp"
+        />
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:id="@+id/stats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/homeName"
+        android:orientation="horizontal"
+        android:layout_marginLeft="10sp"
+        >
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home_hunger_text"
+                android:layout_marginRight="80sp"
+                />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home_happiness_text"
+                android:layout_marginRight="50sp"
+                />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home_strength_text"
+                />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/values"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/stats"
+        android:orientation="horizontal"
+        android:layout_marginLeft="10sp"
+        >
+
+        <SeekBar
+            android:id="@+id/hungerVal"
+            android:layout_width="110sp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10sp"
+            android:max="100"
+            android:progress="100"
+            />
+
+        <SeekBar
+            android:id="@+id/happinessVal"
+            android:layout_width="110sp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15sp"
+            android:max="100"
+            android:progress="100"
+            />
+
+        <TextView
+            android:id="@+id/strengthVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100"
+            />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/ballo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/values"
+        android:layout_marginTop="30sp"
+        android:layout_marginLeft="30sp"
+        android:layout_marginRight="30sp"
+        />
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ballo"
+        android:gravity="center"
+        android:text="Ballo's doing good! Ballo loves you"
+        />
+
+    <Button
+        android:id="@+id/feedBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/status"
+        android:layout_marginLeft="100sp"
+        android:layout_marginRight="100sp"
+        android:text="@string/home_feed_button"
+        android:textSize="20sp"
+        />
+
+    <Button
+        android:id="@+id/walkBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/feedBtn"
+        android:layout_marginLeft="100sp"
+        android:layout_marginRight="100sp"
+        android:text="@string/home_walk_button"
+        android:textSize="20sp"
+        />
+
+    <Button
+        android:id="@+id/playBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/walkBtn"
+        android:layout_marginLeft="100sp"
+        android:layout_marginRight="100sp"
+        android:text="@string/home_play_button"
+        android:textSize="20sp"
+        />
+</RelativeLayout>

@@ -1,5 +1,11 @@
 package edu.uw.nzkwgo.ballo;
 
+import com.google.gson.Gson;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.widget.Toast;
+
 import java.util.Date;
 
 /**
@@ -7,6 +13,63 @@ import java.util.Date;
  */
 
 public class Ballo {
+    private static final String BASIC_BALLO = "basic_ballo";
+    private static final String UNHEALTHY_BALLO = "unhealthy_ballo";
+    private static final String SAD_BALLO = "sad_ballo";
+    private static final String HUNGRY_BALLO = "hungry_ballo";
+    private static final String DEAD_BALLO = "dead_ballo";
+
+    private static final double HAPPINESS_DECAY_PER_HOUR = 4;
+    private static final double HUNGER_DECAY_PER_HOUR = 2;
+    private static final double STRENGTH_DECAY_PER_HOUR = 1;
+
+    private static final String BALLO_PREFERENCE_STATE_ID = "ballo-state-pref";
+    private static final String BALLO_OBJECT_ID = "ballo";
+
+    private static Gson gson;
+
+    /**
+     * @param ctx Pass the current activity
+     * @return The user's current ballo
+     */
+    public static Ballo getBallo(Context ctx) {
+        Ballo result = new Ballo();
+        SharedPreferences pref =
+                ctx.getSharedPreferences(BALLO_PREFERENCE_STATE_ID, Context.MODE_PRIVATE);
+        String balloJson = pref.getString(BALLO_OBJECT_ID, "");
+
+        if (balloJson.length() != 0) {
+            try {
+                result = getGson().fromJson(balloJson, Ballo.class);
+            } catch (Exception e) {
+                Toast.makeText(ctx, "Couldn't load your ballo :(", Toast.LENGTH_LONG).show();
+                e.printStackTrace();
+            }
+            System.out.println("Loaded ballo from storage");
+        } else {
+            System.out.println("A new ballo was created");
+        }
+
+        return result;
+    }
+
+    /**
+     * Stores the given ballo if it's older than the previous.
+     * @param ctx Pass the current activity
+     * @param ballo Give me your ballo.
+     */
+    public static void saveBallo(Context ctx, Ballo ballo) {
+        SharedPreferences pref =
+                ctx.getSharedPreferences(BALLO_PREFERENCE_STATE_ID, Context.MODE_PRIVATE);
+        pref.edit().putString(BALLO_OBJECT_ID, getGson().toJson(ballo)).apply();
+    }
+
+    private static Gson getGson() {
+        if (gson == null) {
+            gson = new Gson();
+        }
+        return gson;
+    }
 
     private String name;
     private double hunger;
@@ -22,22 +85,28 @@ public class Ballo {
     private double highestStrength;
     private String deathStatus;
     private String imgURL;
+    private long lastDecayUpdateTime;
+
+    //Bouncing Animation Variables
+    public float cy;
 
     public Ballo(String name) {
         this.name = name;
-        this.hunger = 100;
-        this.happiness = 100;
-        this.strength = 100;
-        this.birthdate = new Date();
-        this.distanceWalked = 0;
-        this.timesFed = 0;
-        this.timesBounced = 0;
-        this.lowestHappiness = 100;
-        this.lowestStrength = 100;
-        this.lowestHunger = 100;
-        this.highestStrength = 100;
-        this.deathStatus = "";
-        this.imgURL = "@drawable/Basic_Ballo.png";
+      
+        hunger = 100;
+        happiness = 100;
+        strength = 100;
+        birthdate = new Date();
+        distanceWalked = 0;
+        timesFed = 0;
+        timesBounced = 0;
+        lowestHappiness = 100;
+        lowestStrength = 100;
+        lowestHunger = 100;
+        highestStrength = 100;
+        deathStatus = "";
+        imgURL = BASIC_BALLO;
+        lastDecayUpdateTime = (new Date()).getTime();
     }
 
     public Ballo() {
@@ -53,7 +122,6 @@ public class Ballo {
         timesFed++;
     }
 
-    //TODO: Make bounce return coordinates for animation
     public void bounce() {
         if (happiness < 100) {
             setHappiness(happiness + 2);
@@ -61,24 +129,33 @@ public class Ballo {
             setStrength(strength - 1);
         }
         timesBounced++;
+        updateImg();
     }
 
     //Changes Ballo's stats based on a quarter mile's worth of walking.
     //Should be called after walking a quarter mile
-    public void walk() {
-        setStrength(strength + 10);
-        setHunger(hunger - 5);
-        distanceWalked += 0.25;
+    public void walk(double distance) {
+        setStrength(strength + (10 * distance));
+        setHunger(hunger - (3 * distance));
+        distanceWalked += distance;
     }
 
-    //Depreciates the stats while Ballo is alive
-    //Should be called every 15 minutes
-    public void depreciateStats() {
-        if (!this.isDead()) {
-            setHappiness(happiness - 1);
-            setHunger(hunger - 0.5);
-            setStrength(strength - 0.25);
+    /**
+     * Decays the ballo's stats if the ballo isn't dead. This method should be called periodically.
+     */
+    public void decay() {
+        if (isDead()) {
+            return;
         }
+
+        long currentTime = (new Date()).getTime();
+        double elapsedHours = 1.0 * (currentTime - lastDecayUpdateTime) / 1000 / 60 / 60;
+
+        setHappiness(happiness - (elapsedHours * HAPPINESS_DECAY_PER_HOUR));
+        setHunger(hunger - (elapsedHours * HUNGER_DECAY_PER_HOUR));
+        setStrength(strength - (elapsedHours * STRENGTH_DECAY_PER_HOUR));
+
+        lastDecayUpdateTime = currentTime;
     }
 
     //returns whether or not Ballo is dead
@@ -102,16 +179,18 @@ public class Ballo {
         return name;
     }
 
+    // To get the R.drawable version of the url, call
+    // getResources().getIdentifier(ballo.getImgURL() , "drawable", getPackageName());
     public String getImgURL() {
         return imgURL;
     }
 
-    //Returns the sprite to be used while Ballo is on a walk
+    //Returns the sprite to be used while Ballo is on a walk. See comment on getImgURL
     public String getExerciseURL() {
         if (this.strength >= 50) {
-            return "@drawable/Healthy_Exercise_Ballo.png";
+            return "healthy_exercise_ballo";
         } else {
-            return "@drawable/Unhealthy_Exercise_Ballo.png";
+            return "unhealthy_exercise_ballo";
         }
     }
 
@@ -149,6 +228,17 @@ public class Ballo {
             Date currentDate = new Date();
             long diff = this.birthdate.getTime() - currentDate.getTime();
             return (int) diff / (24 * 60 * 60 * 1000);
+        }
+
+    //Getter and Setter methods for ObjectAnimator
+
+        public float getCy() {
+            return cy;
+        }
+
+        public void setCy(float cy) {
+            imgURL = "excited_ballo";
+            this.cy = cy;
         }
 
     //Sets hunger. Cannot exceed 100. Ballo dies when hunger drops below 0
@@ -200,19 +290,19 @@ public class Ballo {
     //Kills ballo, setting his death message to the passed string
     private void kill(String status) {
         this.deathStatus = status;
-        imgURL = "@drawable/Dead_Ballo.png";
+        imgURL = DEAD_BALLO;
     }
 
     //Updates Ballo's sprite to reflect his lowest stat under 50
     private void updateImg() {
         if (hunger > 50 && happiness > 50 && strength > 50) {
-            imgURL = "@drawable/Basic_Ballo.png";
+            imgURL = BASIC_BALLO;
         } else if (hunger < 50 && hunger <= happiness && hunger <= strength) {
-            imgURL = "@drawable/Hungry_Ballo.png";
+            imgURL = HUNGRY_BALLO;
         } else if (happiness < 50 && happiness <= hunger && happiness <= strength) {
-            imgURL = "@drawable/Sad_Ballo.png";
+            imgURL = SAD_BALLO;
         } else if (strength < 50 && strength <= hunger && strength <= happiness) {
-            imgURL = "@drawable/Unhealthy_Ballo.png";
+            imgURL = UNHEALTHY_BALLO;
         }
     }
 }
