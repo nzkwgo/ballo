@@ -41,9 +41,8 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Polyline currentLine;
     private List<Polyline> polylines = new ArrayList<Polyline>();
     private boolean isPenning = false;
-    private Uri mFileUri = null;
-    private static final int WRITE_REQUEST_CODE = 1;
     private double dist;
+    private Ballo ballo;
 
 
     @Override
@@ -69,6 +68,9 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
 
         dist = 0;
+
+        ballo = Ballo.getBallo(this);
+
     }
 
     @Override
@@ -81,6 +83,13 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onStop() {
         mGoogleApiClient.disconnect();
         super.onStop();
+    }
+
+    @Override
+    protected void onPause() {
+        ballo.walk(dist);
+        dist = 0;
+        super.onPause();
     }
 
     @Override
