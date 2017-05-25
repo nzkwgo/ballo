@@ -5,10 +5,10 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/homeName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ballo"
+        android:text="@string/home_name_placeholder"
         android:textSize="30dp"
         />
 
@@ -16,30 +16,30 @@
         android:id="@+id/stats"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/name"
+        android:layout_below="@+id/homeName"
         android:orientation="horizontal"
         android:layout_marginLeft="10sp"
         >
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hunger"
-            android:layout_marginRight="80sp"
-            />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home_hunger_text"
+                android:layout_marginRight="80sp"
+                />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Happiness"
-            android:layout_marginRight="50sp"
-            />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home_happiness_text"
+                android:layout_marginRight="50sp"
+                />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Strength"
-            />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home_strength_text"
+                />
     </LinearLayout>
 
     <LinearLayout
@@ -103,7 +103,7 @@
         android:layout_below="@id/status"
         android:layout_marginLeft="100sp"
         android:layout_marginRight="100sp"
-        android:text="Feed"
+        android:text="@string/home_feed_button"
         android:textSize="20sp"
         />
 
@@ -114,7 +114,7 @@
         android:layout_below="@id/feedBtn"
         android:layout_marginLeft="100sp"
         android:layout_marginRight="100sp"
-        android:text="Walk"
+        android:text="@string/home_walk_button"
         android:textSize="20sp"
         />
 
@@ -125,7 +125,7 @@
         android:layout_below="@id/walkBtn"
         android:layout_marginLeft="100sp"
         android:layout_marginRight="100sp"
-        android:text="Play"
+        android:text="@string/home_play_button"
         android:textSize="20sp"
         />
 </RelativeLayout>
