@@ -2,6 +2,7 @@ package edu.uw.nzkwgo.ballo;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -10,6 +11,7 @@ import android.hardware.SensorManager;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 public class PlayActivity extends AppCompatActivity implements SensorEventListener{
 
@@ -39,6 +41,13 @@ public class PlayActivity extends AppCompatActivity implements SensorEventListen
         if (accelerometer != null) {
             mSensorMgr.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         }
+
+        findViewById(R.id.homeBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(PlayActivity.this, HomeActivity.class));
+            }
+        });
     }
     @Override
 
