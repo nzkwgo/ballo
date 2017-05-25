@@ -1,7 +1,5 @@
 package edu.uw.nzkwgo.ballo;
 
-import android.support.v7.app.AppCompatActivity;
-
 import java.util.Date;
 
 /**
@@ -9,6 +7,15 @@ import java.util.Date;
  */
 
 public class Ballo {
+    private static final String BASIC_BALLO = "basic_ballo";
+    private static final String UNHEALTHY_BALLO = "unhealthy_ballo";
+    private static final String SAD_BALLO = "sad_ballo";
+    private static final String HUNGRY_BALLO = "hungry_ballo";
+    private static final String DEAD_BALLO = "dead_ballo";
+
+    private static final double HAPPINESS_DECAY_PER_HOUR = 4;
+    private static final double HUNGER_DECAY_PER_HOUR = 2;
+    private static final double STRENGTH_DECAY_PER_HOUR = 1;
 
     private String name;
     private double hunger;
@@ -24,26 +31,28 @@ public class Ballo {
     private double highestStrength;
     private String deathStatus;
     private String imgURL;
+    private long lastDecayUpdateTime;
 
     //Bouncing Animation Variables
     public float cy;
 
     public Ballo(String name) {
         this.name = name;
-        this.hunger = 100;
-
-        this.happiness = 100;
-        this.strength = 100;
-        this.birthdate = new Date();
-        this.distanceWalked = 0;
-        this.timesFed = 0;
-        this.timesBounced = 0;
-        this.lowestHappiness = 100;
-        this.lowestStrength = 100;
-        this.lowestHunger = 100;
-        this.highestStrength = 100;
-        this.deathStatus = "";
-        this.imgURL = "basic_ballo";
+      
+        hunger = 100;
+        happiness = 100;
+        strength = 100;
+        birthdate = new Date();
+        distanceWalked = 0;
+        timesFed = 0;
+        timesBounced = 0;
+        lowestHappiness = 100;
+        lowestStrength = 100;
+        lowestHunger = 100;
+        highestStrength = 100;
+        deathStatus = "";
+        imgURL = BASIC_BALLO;
+        lastDecayUpdateTime = (new Date()).getTime();
     }
 
     public Ballo() {
@@ -77,14 +86,22 @@ public class Ballo {
         distanceWalked += 0.25;
     }
 
-    //Depreciates the stats while Ballo is alive
-    //Should be called every 15 minutes
-    public void depreciateStats() {
-        if (!this.isDead()) {
-            setHappiness(happiness - 1);
-            setHunger(hunger - 0.5);
-            setStrength(strength - 0.25);
+    /**
+     * Decays the ballo's stats if the ballo isn't dead. This method should be called periodically.
+     */
+    public void decay() {
+        if (isDead()) {
+            return;
         }
+
+        long currentTime = (new Date()).getTime();
+        double elapsedHours = 1.0 * (currentTime - lastDecayUpdateTime) / 1000 / 60 / 60;
+
+        setHappiness(happiness - (elapsedHours * HAPPINESS_DECAY_PER_HOUR));
+        setHunger(hunger - (elapsedHours * HUNGER_DECAY_PER_HOUR));
+        setStrength(strength - (elapsedHours * STRENGTH_DECAY_PER_HOUR));
+
+        lastDecayUpdateTime = currentTime;
     }
 
     //returns whether or not Ballo is dead
@@ -108,7 +125,8 @@ public class Ballo {
         return name;
     }
 
-    //To get the R.drawable version of the url, call getResources().getIdentifier(ballo.getImgURL() , "drawable", getPackageName());
+    // To get the R.drawable version of the url, call
+    // getResources().getIdentifier(ballo.getImgURL() , "drawable", getPackageName());
     public String getImgURL() {
         return imgURL;
     }
@@ -218,19 +236,19 @@ public class Ballo {
     //Kills ballo, setting his death message to the passed string
     private void kill(String status) {
         this.deathStatus = status;
-        imgURL = "dead_ballo";
+        imgURL = DEAD_BALLO;
     }
 
     //Updates Ballo's sprite to reflect his lowest stat under 50
     private void updateImg() {
         if (hunger > 50 && happiness > 50 && strength > 50) {
-            imgURL = "basic_ballo";
+            imgURL = BASIC_BALLO;
         } else if (hunger < 50 && hunger <= happiness && hunger <= strength) {
-            imgURL = "hungry_ballo";
+            imgURL = HUNGRY_BALLO;
         } else if (happiness < 50 && happiness <= hunger && happiness <= strength) {
-            imgURL = "sad_ballo";
+            imgURL = SAD_BALLO;
         } else if (strength < 50 && strength <= hunger && strength <= happiness) {
-            imgURL = "unhealthy_ballo";
+            imgURL = UNHEALTHY_BALLO;
         }
     }
 }
