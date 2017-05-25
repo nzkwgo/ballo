@@ -134,10 +134,10 @@ public class Ballo {
 
     //Changes Ballo's stats based on a quarter mile's worth of walking.
     //Should be called after walking a quarter mile
-    public void walk() {
-        setStrength(strength + 10);
-        setHunger(hunger - 5);
-        distanceWalked += 0.25;
+    public void walk(double distance) {
+        setStrength(strength + (10 * distance));
+        setHunger(hunger - (3 * distance));
+        distanceWalked += distance;
     }
 
     /**
