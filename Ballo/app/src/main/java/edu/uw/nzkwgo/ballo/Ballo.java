@@ -33,9 +33,12 @@ public class Ballo {
     private String imgURL;
     private long lastDecayUpdateTime;
 
+    //Bouncing Animation Variables
+    public float cy;
+
     public Ballo(String name) {
         this.name = name;
-
+      
         hunger = 100;
         happiness = 100;
         strength = 100;
@@ -65,7 +68,6 @@ public class Ballo {
         timesFed++;
     }
 
-    //TODO: Make bounce return coordinates for animation
     public void bounce() {
         if (happiness < 100) {
             setHappiness(happiness + 2);
@@ -172,6 +174,17 @@ public class Ballo {
             Date currentDate = new Date();
             long diff = this.birthdate.getTime() - currentDate.getTime();
             return (int) diff / (24 * 60 * 60 * 1000);
+        }
+
+    //Getter and Setter methods for ObjectAnimator
+
+        public float getCy() {
+            return cy;
+        }
+
+        public void setCy(float cy) {
+            imgURL = "excited_ballo";
+            this.cy = cy;
         }
 
     //Sets hunger. Cannot exceed 100. Ballo dies when hunger drops below 0
