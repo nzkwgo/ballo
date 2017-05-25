@@ -1,5 +1,11 @@
 package edu.uw.nzkwgo.ballo;
 
+import com.google.gson.Gson;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.widget.Toast;
+
 import java.util.Date;
 
 /**
@@ -16,6 +22,54 @@ public class Ballo {
     private static final double HAPPINESS_DECAY_PER_HOUR = 4;
     private static final double HUNGER_DECAY_PER_HOUR = 2;
     private static final double STRENGTH_DECAY_PER_HOUR = 1;
+
+    private static final String BALLO_PREFERENCE_STATE_ID = "ballo-state-pref";
+    private static final String BALLO_OBJECT_ID = "ballo";
+
+    private static Gson gson;
+
+    /**
+     * @param ctx Pass the current activity
+     * @return The user's current ballo
+     */
+    public static Ballo getBallo(Context ctx) {
+        Ballo result = new Ballo();
+        SharedPreferences pref =
+                ctx.getSharedPreferences(BALLO_PREFERENCE_STATE_ID, Context.MODE_PRIVATE);
+        String balloJson = pref.getString(BALLO_OBJECT_ID, "");
+
+        if (balloJson.length() != 0) {
+            try {
+                result = getGson().fromJson(balloJson, Ballo.class);
+            } catch (Exception e) {
+                Toast.makeText(ctx, "Couldn't load your ballo :(", Toast.LENGTH_LONG).show();
+                e.printStackTrace();
+            }
+            System.out.println("Loaded ballo from storage");
+        } else {
+            System.out.println("A new ballo was created");
+        }
+
+        return result;
+    }
+
+    /**
+     * Stores the given ballo if it's older than the previous.
+     * @param ctx Pass the current activity
+     * @param ballo Give me your ballo.
+     */
+    public static void saveBallo(Context ctx, Ballo ballo) {
+        SharedPreferences pref =
+                ctx.getSharedPreferences(BALLO_PREFERENCE_STATE_ID, Context.MODE_PRIVATE);
+        pref.edit().putString(BALLO_OBJECT_ID, getGson().toJson(ballo)).apply();
+    }
+
+    private static Gson getGson() {
+        if (gson == null) {
+            gson = new Gson();
+        }
+        return gson;
+    }
 
     private String name;
     private double hunger;

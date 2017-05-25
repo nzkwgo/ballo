@@ -1,9 +1,6 @@
 package edu.uw.nzkwgo.ballo;
 
-import com.google.gson.Gson;
-
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -11,7 +8,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -22,11 +18,7 @@ import java.util.TimerTask;
  * the ballo's stats or leaderboard.
  */
 public class HomeActivity extends AppCompatActivity {
-    private static final String BALLO_PREFERENCE_STATE_ID = "ballo-state-pref";
-    private static final String BALLO_OBJECT_ID = "ballo";
     private static final long DECAY_TIMER_MS = 1000 * 60 * 5; // 5 minutes
-
-    private static Gson gson;
 
     private Ballo ballo;
     private TextView name;
@@ -91,21 +83,7 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         // Load ballo if one exists
-        ballo = new Ballo();
-        final SharedPreferences pref =
-                getSharedPreferences(BALLO_PREFERENCE_STATE_ID, MODE_PRIVATE);
-        String balloJson = pref.getString(BALLO_OBJECT_ID, "");
-        if (balloJson.length() != 0) {
-            try {
-                ballo = getGson().fromJson(balloJson, Ballo.class);
-            } catch (Exception e) {
-                Toast.makeText(this, "Couldn't load your ballo :(", Toast.LENGTH_LONG).show();
-                e.printStackTrace();
-            }
-            System.out.println("Loaded ballo from storage");
-        } else {
-            System.out.println("A new ballo was created");
-        }
+        ballo = Ballo.getBallo(this);
 
         if (decayTimer != null) {
             decayTimer.cancel();
@@ -130,7 +108,7 @@ public class HomeActivity extends AppCompatActivity {
                 });
 
                 // Store updated ballo in preferences
-                pref.edit().putString(BALLO_OBJECT_ID, getGson().toJson(ballo)).apply();
+                Ballo.saveBallo(HomeActivity.this, ballo);
             }
         };
         decayTimer.schedule(decayTask, 0, DECAY_TIMER_MS);
@@ -154,12 +132,5 @@ public class HomeActivity extends AppCompatActivity {
         name.setText(ballo.getName());
         balloAvatar.setImageResource(
                 getResources().getIdentifier(ballo.getImgURL(), "drawable", getPackageName()));
-    }
-
-    private static Gson getGson() {
-        if (gson == null) {
-            gson = new Gson();
-        }
-        return gson;
     }
 }
