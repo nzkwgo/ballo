@@ -63,8 +63,9 @@ public class DrawingSurfaceView extends SurfaceView implements SurfaceHolder.Cal
      */
     public void init() {
         //make ball
-        ballo = new Ballo(); //todo replace with real ballo
+        ballo = Ballo.getBallo(getContext());
         ballo.cy = viewHeight - 400;
+        Ballo.saveBallo(getContext(), ballo);
     }
 
 
@@ -72,7 +73,6 @@ public class DrawingSurfaceView extends SurfaceView implements SurfaceHolder.Cal
      * Helper method for the "game loop"
      */
     public void update() {
-
     }
 
 
