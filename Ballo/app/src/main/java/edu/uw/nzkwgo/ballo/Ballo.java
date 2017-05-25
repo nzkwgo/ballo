@@ -25,9 +25,13 @@ public class Ballo {
     private String deathStatus;
     private String imgURL;
 
+    //Bouncing Animation Variables
+    public float cy;
+
     public Ballo(String name) {
         this.name = name;
         this.hunger = 100;
+
         this.happiness = 100;
         this.strength = 100;
         this.birthdate = new Date();
@@ -153,6 +157,16 @@ public class Ballo {
             Date currentDate = new Date();
             long diff = this.birthdate.getTime() - currentDate.getTime();
             return (int) diff / (24 * 60 * 60 * 1000);
+        }
+
+    //Getter and Setter methods for ObjectAnimator
+
+        public float getCy() {
+            return cy;
+        }
+
+        public void setCy(float cy) {
+            this.cy = cy;
         }
 
     //Sets hunger. Cannot exceed 100. Ballo dies when hunger drops below 0

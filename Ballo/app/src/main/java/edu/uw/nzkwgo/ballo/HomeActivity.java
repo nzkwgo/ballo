@@ -17,5 +17,6 @@ public class HomeActivity extends AppCompatActivity {
 
         ImageView balloView = (ImageView) findViewById(R.id.ballo);
         balloView.setImageResource(getResources().getIdentifier(ballo.getImgURL(), "drawable", getPackageName()));
+        startActivity(new Intent(this, PlayActivity.class));
     }
 }

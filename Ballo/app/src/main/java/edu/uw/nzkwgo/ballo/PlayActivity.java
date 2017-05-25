@@ -1,6 +1,7 @@
 package edu.uw.nzkwgo.ballo;
 
 import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -16,10 +17,6 @@ public class PlayActivity extends AppCompatActivity implements SensorEventListen
 
     private DrawingSurfaceView view;
 
-    private AnimatorSet radiusAnim;
-
-    private GestureDetectorCompat mDetector;
-
     // variables for shake detection
     private static final int SHAKE_THRESHOLD = 3; // m/S**2
     private static final int MIN_TIME_BETWEEN_SHAKES_MILLISECS = 1000;
@@ -32,6 +29,8 @@ public class PlayActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
         ballo = new Ballo(); //todo: change to the shared Ballo
+
+        view = (DrawingSurfaceView)findViewById(R.id.drawingView);
 
         mSensorMgr = (SensorManager) getSystemService(SENSOR_SERVICE);
         // Listen for shakes
@@ -59,7 +58,14 @@ public class PlayActivity extends AppCompatActivity implements SensorEventListen
                 if (acceleration > SHAKE_THRESHOLD) {
                     mLastShakeTime = curTime;
                     //Shook
-                    //Bitmap bMap = BitmapFactory.decodeResource(getResources(), R.drawable.)
+                    ObjectAnimator upAnim = ObjectAnimator.ofFloat(view.ballo, "Cy", 500);
+                    upAnim.setDuration(500);
+                    ObjectAnimator downAnim = ObjectAnimator.ofFloat(view.ballo, "Cy", view.getHeight() - 400);
+                    downAnim.setDuration(500);
+
+                    AnimatorSet set = new AnimatorSet();
+                    set.playSequentially(downAnim, upAnim);
+                    set.start();
                 }
             }
         }

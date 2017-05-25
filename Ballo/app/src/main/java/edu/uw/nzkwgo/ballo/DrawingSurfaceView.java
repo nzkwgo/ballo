@@ -2,9 +2,12 @@ package edu.uw.nzkwgo.ballo;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -25,9 +28,6 @@ public class DrawingSurfaceView extends SurfaceView implements SurfaceHolder.Cal
     private SurfaceHolder mHolder; //the holder we're going to post updates to
     private DrawingRunnable mRunnable; //the code that we'll want to run on a background thread
     private Thread mThread; //the background thread
-
-    private Paint whitePaint; //drawing variables (pre-defined for speed)
-    private Paint goldPaint; //drawing variables (pre-defined for speed)
 
     public Ballo ballo; //public for easy access
 
@@ -55,12 +55,6 @@ public class DrawingSurfaceView extends SurfaceView implements SurfaceHolder.Cal
 
         mRunnable = new DrawingRunnable();
 
-        //set up drawing variables ahead of time
-        whitePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        whitePaint.setColor(Color.WHITE);
-        goldPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        goldPaint.setColor(Color.rgb(145, 123, 76));
-
         init();
     }
 
@@ -69,7 +63,8 @@ public class DrawingSurfaceView extends SurfaceView implements SurfaceHolder.Cal
      */
     public void init() {
         //make ball
-        ball = new Ball(viewWidth / 2, viewHeight / 2, 100);
+        ballo = new Ballo(); //todo replace with real ballo
+        ballo.cy = ballo.startingPosition;
     }
 
 
@@ -77,32 +72,7 @@ public class DrawingSurfaceView extends SurfaceView implements SurfaceHolder.Cal
      * Helper method for the "game loop"
      */
     public void update() {
-        //update the "game state" here (move things around, etc.
 
-//        ball.cx += ball.dx; //move
-//        ball.cy += ball.dy;
-//
-//        //slow down
-//        ball.dx *= 0.99;
-//        ball.dy *= 0.99;
-//
-////        if(ball.dx < .1) ball.dx = 0;
-////        if(ball.dy < .1) ball.dy = 0;
-//
-//        /* hit detection */
-//        if (ball.cx + ball.radius > viewWidth) { //left bound
-//            ball.cx = viewWidth - ball.radius;
-//            ball.dx *= -1;
-//        } else if (ball.cx - ball.radius < 0) { //right bound
-//            ball.cx = ball.radius;
-//            ball.dx *= -1;
-//        } else if (ball.cy + ball.radius > viewHeight) { //bottom bound
-//            ball.cy = viewHeight - ball.radius;
-//            ball.dy *= -1;
-//        } else if (ball.cy - ball.radius < 0) { //top bound
-//            ball.cy = ball.radius;
-//            ball.dy *= -1;
-//        }
     }
 
 
@@ -113,8 +83,14 @@ public class DrawingSurfaceView extends SurfaceView implements SurfaceHolder.Cal
      */
     public synchronized void render(Canvas canvas) {
         if (canvas == null) return; //if we didn't get a valid canvas for whatever reason
+        canvas.drawColor(Color.rgb(255,255,255)); //purple out the background
 
-        canvas.drawCircle(ball.cx, ball.cy, ball.radius, whitePaint); //we can draw directly onto the canvas
+        int imgID = getResources().getIdentifier(ballo.getImgURL() , "drawable", getContext().getPackageName());
+        Bitmap img = BitmapFactory.decodeResource(getResources(), imgID);
+        Bitmap scaledImg = Bitmap.createScaledBitmap(img, 400, 400, false);
+
+        canvas.drawBitmap(scaledImg, viewWidth / 2 - 200, ballo.cy, null);
+
     }
 
 
