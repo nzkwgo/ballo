@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.Date;
@@ -135,7 +136,8 @@ public class Ballo {
     //Changes Ballo's stats based on a quarter mile's worth of walking.
     //Should be called after walking a quarter mile
     public void walk(double distance) {
-        setStrength(strength + (10 * distance));
+        Log.v("BALLO", "walk method");
+        setStrength(strength + distance);
         setHunger(hunger - (3 * distance));
         distanceWalked += distance;
     }
@@ -247,6 +249,7 @@ public class Ballo {
     //Sets hunger. Cannot exceed 100. Ballo dies when hunger drops below 0
     private void setHunger(double hunger) {
         this.hunger = hunger;
+        Log.v("BALLO", "Set hunger to " + this.hunger);
         if (this.hunger > 100) {
             this.hunger = 100;
         } else if (this.hunger <= 0) {
@@ -278,6 +281,8 @@ public class Ballo {
     //Sets strength. Ballo dies when strength drops below 0
     private void setStrength(double strength) {
         this.strength = strength;
+
+        Log.v("BALLO", "Set strength to" + this.strength);
 
         if (this.strength <= 0) {
             this.strength = 0;

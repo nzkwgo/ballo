@@ -9,6 +9,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -88,6 +89,8 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onPause() {
         ballo.walk(dist);
+        Ballo.saveBallo(this, ballo);
+        Log.v("WALK", "Saved Ballo with dist = " + dist);
         dist = 0;
         super.onPause();
     }
@@ -95,19 +98,22 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onConnected(Bundle connectionHint) {
         int permission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-        if (permission == PackageManager.PERMISSION_GRANTED && mGoogleApiClient.isConnected()) {
-            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                    mGoogleApiClient);
+        if (permission == PackageManager.PERMISSION_GRANTED) {
+                mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                        mGoogleApiClient);
+
+            mMap.setMyLocationEnabled(true);
+
+
+            if (mLastLocation != null) {
+                    LatLng lastPosition = getLatLng(mLastLocation);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(lastPosition));
+                }
+
+                startLocationUpdates();
         } else {
             requestPermission();
         }
-
-        if (mLastLocation != null) {
-            LatLng lastPosition = getLatLng(mLastLocation);
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(lastPosition));
-        }
-
-        startLocationUpdates();
     }
 
     private LatLng getLatLng(Location loc) {
@@ -149,15 +155,15 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private double distance(double lat1, double lon1, double lat2, double lon2) {
         double theta = lon1 - lon2;
-        double dist = Math.sin(deg2rad(lat1))
+        double dist2 = Math.sin(deg2rad(lat1))
                 * Math.sin(deg2rad(lat2))
                 + Math.cos(deg2rad(lat1))
                 * Math.cos(deg2rad(lat2))
                 * Math.cos(deg2rad(theta));
-        dist = Math.acos(dist);
-        dist = rad2deg(dist);
-        dist = dist * 60 * 1.1515;
-        return (dist);
+        dist2 = Math.acos(dist2);
+        dist2 = rad2deg(dist2);
+        dist2 = dist2 * 60 * 1.1515 * 1000; // * 1000 changes it to be in meters
+        return (dist2);
     }
 
     private double deg2rad(double deg) {
@@ -173,8 +179,8 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (permission == PackageManager.PERMISSION_GRANTED) {
             LocationServices.FusedLocationApi.requestLocationUpdates(
                     mGoogleApiClient, mLocationRequest, this);
-        } else {
-            requestPermission();
+//        } else {
+//            requestPermission();
         }
     }
 
@@ -201,13 +207,10 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         UiSettings uiSettings = mMap.getUiSettings();
         uiSettings.setZoomControlsEnabled(true);
-        int permission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-        if (permission == PackageManager.PERMISSION_GRANTED) {
-            mMap.setMyLocationEnabled(true);
+        //int permission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        //if (permission == PackageManager.PERMISSION_GRANTED) {
             mMap.moveCamera(CameraUpdateFactory.zoomTo(13));
-        } else {
-            requestPermission();
-        }
+        //}
     }
 
     public void newPolyline() {
