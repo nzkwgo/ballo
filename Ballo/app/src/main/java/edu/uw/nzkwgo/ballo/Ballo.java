@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.Date;
@@ -138,7 +139,7 @@ public class Ballo {
     public void walk(double distance) {
         Log.v("BALLO", "walk method");
         setStrength(strength + distance);
-        setHunger(hunger - (3 * distance));
+        setHunger(hunger - (distance/2));
         distanceWalked += distance;
     }
 

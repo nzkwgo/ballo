@@ -88,9 +88,9 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     protected void onPause() {
-        ballo.walk(dist);
-        Ballo.saveBallo(this, ballo);
-        Log.v("WALK", "Saved Ballo with dist = " + dist);
+//        ballo.walk(dist);
+//        Ballo.saveBallo(this, ballo);
+//        Log.v("WALK", "Saved Ballo with dist = " + dist);
         dist = 0;
         super.onPause();
     }
@@ -142,9 +142,16 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onLocationChanged(Location location) {
         mMap.animateCamera(CameraUpdateFactory.newLatLng(getLatLng(location)));
-        dist += distance(mLastLocation.getLatitude(), mLastLocation.getLongitude(),
+        double currDist = distance(mLastLocation.getLatitude(), mLastLocation.getLongitude(),
                 location.getLatitude(), location.getLongitude());
-        Toast.makeText(this, "Distance = " + dist, Toast.LENGTH_SHORT).show();
+        dist += currDist;
+//        Toast.makeText(this, "Distance = " + dist, Toast.LENGTH_SHORT).show();
+        Log.v("WALK", "Distance = " + dist);
+
+        // trying updating strength everytime location changes
+        ballo.walk(currDist);
+        Ballo.saveBallo(this, ballo);
+
         mLastLocation = location;
         if (isPenning) {
             List<LatLng> polyPoints = currentLine.getPoints();
@@ -179,8 +186,6 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (permission == PackageManager.PERMISSION_GRANTED) {
             LocationServices.FusedLocationApi.requestLocationUpdates(
                     mGoogleApiClient, mLocationRequest, this);
-//        } else {
-//            requestPermission();
         }
     }
 
@@ -207,10 +212,7 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         UiSettings uiSettings = mMap.getUiSettings();
         uiSettings.setZoomControlsEnabled(true);
-        //int permission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-        //if (permission == PackageManager.PERMISSION_GRANTED) {
-            mMap.moveCamera(CameraUpdateFactory.zoomTo(13));
-        //}
+         mMap.moveCamera(CameraUpdateFactory.zoomTo(13));
     }
 
     public void newPolyline() {
