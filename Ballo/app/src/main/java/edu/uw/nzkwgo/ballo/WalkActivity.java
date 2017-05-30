@@ -90,7 +90,9 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onPause() {
 //        ballo.walk(dist);
 //        Ballo.saveBallo(this, ballo);
-//        Log.v("WALK", "Saved Ballo with dist = " + dist);
+        Log.v("WALK", "ON PAUSE");
+        ballo.walk(1);
+        Ballo.saveBallo(this, ballo);
         dist = 0;
         super.onPause();
     }

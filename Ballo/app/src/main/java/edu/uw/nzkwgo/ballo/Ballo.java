@@ -139,7 +139,7 @@ public class Ballo {
     public void walk(double distance) {
         Log.v("BALLO", "walk method");
         setStrength(strength + distance);
-        setHunger(hunger - (distance/2));
+        setHunger(hunger - (distance/10));
         distanceWalked += distance;
     }
 
