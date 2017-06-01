@@ -5,16 +5,22 @@ import com.google.gson.Gson;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
- * Created by Noah on 5/22/17.
+ * The pet.
  */
-
 public class Ballo {
+    // Events Ballo may produce.
+    public interface Events {
+        // Triggers when Ballo has been updated in any way (image, happiness, hunger, strength, etc)
+        void onUpdate();
+    }
+
     private static final String BASIC_BALLO = "basic_ballo";
     private static final String UNHEALTHY_BALLO = "unhealthy_ballo";
     private static final String SAD_BALLO = "sad_ballo";
@@ -27,6 +33,8 @@ public class Ballo {
 
     private static final String BALLO_PREFERENCE_STATE_ID = "ballo-state-pref";
     private static final String BALLO_OBJECT_ID = "ballo";
+
+    private static final long DECAY_TIMER_MS = 1000 * 60 * 5; // 5 minutes
 
     private static Gson gson;
 
@@ -63,7 +71,7 @@ public class Ballo {
     public static void saveBallo(Context ctx, Ballo ballo) {
         SharedPreferences pref =
                 ctx.getSharedPreferences(BALLO_PREFERENCE_STATE_ID, Context.MODE_PRIVATE);
-        pref.edit().putString(BALLO_OBJECT_ID, getGson().toJson(ballo)).commit();
+        pref.edit().putString(BALLO_OBJECT_ID, getGson().toJson(ballo)).apply();
     }
 
     private static Gson getGson() {
@@ -85,16 +93,19 @@ public class Ballo {
     private double lowestStrength;
     private double lowestHunger;
     private double highestStrength;
-    private String deathStatus;
+    private String statusText;
     private String imgURL;
     private long lastDecayUpdateTime;
+
+    private transient Events eventHandler;
+    private transient Timer decayTimer;
 
     //Bouncing Animation Variables
     public float cy;
 
     public Ballo(String name) {
         this.name = name;
-      
+
         hunger = 100;
         happiness = 100;
         strength = 100;
@@ -106,9 +117,20 @@ public class Ballo {
         lowestStrength = 100;
         lowestHunger = 100;
         highestStrength = 100;
-        deathStatus = "";
+        statusText = "Ballo is doing good! Ballo loves you.";
         imgURL = BASIC_BALLO;
         lastDecayUpdateTime = (new Date()).getTime();
+
+        decayTimer = new Timer();
+        TimerTask decayTask = new TimerTask() {
+            @Override
+            public void run() {
+                // Decay
+                decay();
+            }
+        };
+        decayTimer.schedule(decayTask, 0, DECAY_TIMER_MS);
+
     }
 
     public Ballo() {
@@ -131,7 +153,7 @@ public class Ballo {
             setStrength(strength - 1);
         }
         timesBounced++;
-        updateImg();
+        //updateImg();
     }
 
     //Changes Ballo's stats based on a quarter mile's worth of walking.
@@ -163,7 +185,7 @@ public class Ballo {
 
     //returns whether or not Ballo is dead
     public boolean isDead() {
-        return !deathStatus.isEmpty();
+        return statusText.contains("died") || statusText.contains("death");
     }
 
     public int getHunger() {
@@ -180,6 +202,10 @@ public class Ballo {
 
     public String getName() {
         return name;
+    }
+
+    public String getStatusText() {
+        return statusText;
     }
 
     // To get the R.drawable version of the url, call
@@ -245,6 +271,7 @@ public class Ballo {
 
     public void setImgURL(String imgURL) {
         this.imgURL = imgURL;
+        notifyUpdate();
     }
 
     //Sets hunger. Cannot exceed 100. Ballo dies when hunger drops below 0
@@ -261,6 +288,7 @@ public class Ballo {
         }
 
         lowestHunger = Math.min(this.hunger, lowestHunger);
+        notifyUpdate();
     }
 
     //Sets happiness. Cannot exceed 100. Ballo dies when happiness drops below 0
@@ -279,6 +307,7 @@ public class Ballo {
         }
 
         lowestHappiness = Math.min(this.happiness, lowestHappiness);
+        notifyUpdate();
     }
 
     //Sets strength. Ballo dies when strength drops below 0
@@ -296,24 +325,60 @@ public class Ballo {
 
         highestStrength = Math.max(this.strength, highestStrength);
         lowestStrength = Math.min(this.strength, lowestStrength);
+        notifyUpdate();
     }
 
     //Kills ballo, setting his death message to the passed string
     private void kill(String status) {
-        this.deathStatus = status;
+        this.statusText = status;
         imgURL = DEAD_BALLO;
+        notifyUpdate();
     }
 
     //Updates Ballo's sprite to reflect his lowest stat under 50
     public void updateImg() {
         if (hunger > 50 && happiness > 50 && strength > 50) {
             imgURL = BASIC_BALLO;
+            statusText = "Ballo is doing good! Ballo loves you.";
+
+        } else if (hunger <= 0 || happiness <= 0 || strength <= 0) {
+            imgURL = DEAD_BALLO;
         } else if (hunger < 50 && hunger <= happiness && hunger <= strength) {
             imgURL = HUNGRY_BALLO;
+            statusText = "Ballo's starving. Feed him some food.";
         } else if (happiness < 50 && happiness <= hunger && happiness <= strength) {
             imgURL = SAD_BALLO;
+            statusText = "Ballo's feeling blue. You should play with him.";
         } else if (strength < 50 && strength <= hunger && strength <= happiness) {
             imgURL = UNHEALTHY_BALLO;
+            statusText = "Ballo's looking weak. Maybe take him outside!";
+        }
+        notifyUpdate();
+    }
+
+    private void notifyUpdate() {
+        if (eventHandler != null) {
+            eventHandler.onUpdate();
+        }
+    }
+
+    /**
+     * Sets the event handler.
+     * @param eventHandler
+     */
+    public void setEventHandler(Events eventHandler) {
+        this.eventHandler = eventHandler;
+    }
+
+    public void clearEventHandler() {
+        this.eventHandler = null;
+    }
+
+    public void destroy() {
+        if (decayTimer != null) {
+            decayTimer.cancel();
+            decayTimer.purge();
+            decayTimer = null;
         }
     }
 }

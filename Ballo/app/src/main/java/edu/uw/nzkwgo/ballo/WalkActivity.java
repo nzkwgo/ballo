@@ -31,7 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WalkActivity extends AppCompatActivity implements OnMapReadyCallback,
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+        LocationListener, Ballo.Events {
 
     private GoogleMap mMap;
     private LocationRequest mLocationRequest;
@@ -71,7 +72,7 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
         dist = 0;
 
         ballo = Ballo.getBallo(this);
-
+        ballo.setEventHandler(this);
     }
 
     @Override
@@ -200,6 +201,11 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onConnectionSuspended(int i) {
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ballo.destroy();
+    }
 
     /**
      * Manipulates the map once available.
@@ -228,4 +234,8 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
         polylines.add(currentLine);
     }
 
+    @Override
+    public void onUpdate() {
+        Ballo.saveBallo(this, ballo);
+    }
 }
