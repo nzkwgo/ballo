@@ -14,7 +14,7 @@ Happiness drops the slowest of the three stats. If a Ballo's happiness drops bel
 
 ### Strength
 
-Strength decays with time, but also in relation to the Ballo being played with in Ballo Bounce if the Ballo is at full happiness. The ecstatic Ballo will use up strength quickly when at peak happiness. When the Ballo's strength drops below 50, the Ballo will be visibly saddened. The user can increase a Ballo's strength by taking it on walks by leaving the app open while physically covering a distance. A ballo's strength is also tracked through a universal leaderboard, allowing players to compare their best attempt at keeping a healthy ballo alive and well.
+Strength decays with time, but also in relation to the Ballo being played with in Ballo Bounce if the Ballo is at full happiness. The ecstatic Ballo will use up strength quickly when at peak happiness. When the Ballo's strength drops below 50, the Ballo will be visibly saddened. The user can increase a Ballo's strength by taking it on walks by leaving the app open while physically covering a distance. A Ballo's strength is also tracked through a universal leaderboard, allowing players to compare their best attempt at keeping a healthy Ballo alive and well.
 
 ## Team Members
 
