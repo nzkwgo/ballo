@@ -1,6 +1,10 @@
 package edu.uw.nzkwgo.ballo;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.ListPreference;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,9 +16,12 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.util.Log;
 import java.util.Timer;
 import java.util.TimerTask;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+
+
 
 /**
  * The home screen of the Ballo app/game. This screen shows a player their current Ballo's hunger,
@@ -86,6 +93,24 @@ public class HomeActivity extends AppCompatActivity implements Ballo.Events {
             ballo = Ballo.getBallo(this);
         }
 
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        String text = settings.getString("listpreference_level", "default");
+
+        if (text.equals("1")) {
+            ballo.HAPPINESS_DECAY_PER_HOUR = 4;
+            ballo.HUNGER_DECAY_PER_HOUR = 2;
+            ballo.STRENGTH_DECAY_PER_HOUR = 1;
+        } else if (text.equals("2")) {
+            ballo.HAPPINESS_DECAY_PER_HOUR = 8;
+            ballo.HUNGER_DECAY_PER_HOUR = 4;
+            ballo.STRENGTH_DECAY_PER_HOUR = 2;
+        } else {
+            ballo.HAPPINESS_DECAY_PER_HOUR = 16;
+            ballo.HUNGER_DECAY_PER_HOUR = 8;
+            ballo.STRENGTH_DECAY_PER_HOUR = 4;
+        }
+        ballo.saveBallo(this, ballo);
+
         // Load ballo if one exists
         ballo.setEventHandler(this);
         onUpdate();
@@ -98,6 +123,7 @@ public class HomeActivity extends AppCompatActivity implements Ballo.Events {
         ballo.destroy();
         ballo = null;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -113,7 +139,7 @@ public class HomeActivity extends AppCompatActivity implements Ballo.Events {
                 return true;
             }
             case R.id.item_settings: {
-                Toast.makeText(this, "Leaderboard", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(HomeActivity.this, SettingActivity.class));
                 return true;
             }
