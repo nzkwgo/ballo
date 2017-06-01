@@ -167,7 +167,6 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // trying updating strength everytime location changes
         ballo.walk(currDist);
-        Ballo.saveBallo(this, ballo);
 
         mLastLocation = location;
         if (isPenning) {

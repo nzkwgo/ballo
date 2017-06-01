@@ -159,6 +159,10 @@ public class Ballo {
     //Changes Ballo's stats based on a quarter mile's worth of walking.
     //Should be called after walking a quarter mile
     public void walk(double distance) {
+        if (distance == Double.NaN) {
+            return;
+        }
+
         Log.v("BALLO", "walk method: " + distance);
         setStrength(strength + distance);
         setHunger(hunger - (distance/10));
