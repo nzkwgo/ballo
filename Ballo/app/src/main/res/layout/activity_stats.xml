@@ -1,9 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="edu.uw.nzkwgo.ballo.StatsActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Stats"
+        android:textStyle="bold"
+        android:textSize="20pt"
+        android:layout_marginBottom="10pt"
+        android:textColor="@color/black"
+    />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your pet is DEAD"
+        android:gravity="center"
+
+        android:layout_marginBottom="10pt"
+        android:textColor="@color/red"
+        android:textSize="15pt"/>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="5pt"
+            android:gravity="center">
+            <TextView
+                android:text="Age"
+                android:textColor="@color/black"
+                android:textSize="9pt"/>
+            <TextView
+                android:id="@+id/stats_age"
+                android:text="385"
+                android:textColor="@color/black"
+                android:textSize="9pt"/>
+            <TextView
+                android:text="days"
+                android:textColor="@color/black"
+                android:textSize="9pt"/>
+        </TableRow>
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="5pt"
+            android:gravity="center">
+            <TextView
+                android:text="Distance Walked"
+                android:textColor="@color/black"
+                android:textSize="9pt"/>
+            <TextView
+                android:id="@+id/stats_distance"
+                android:text="290.00"
+                android:textColor="@color/black"
+                android:textSize="9pt"/>
+            <TextView
+                android:text="  miles"
+                android:textColor="@color/black"
+                android:textSize="9pt"/>
+        </TableRow>
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="5pt"
+            android:gravity="center">
+            <TextView
+                android:text="Number of times fed"
+                android:textColor="@color/black"
+                android:textSize="9pt"/>
+            <TextView
+                android:id="@+id/stats_fed"
+                android:text="421"
+                android:textColor="@color/black"
+                android:textSize="9pt"/>
+            <TextView
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="9pt"/>
+        </TableRow>
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="5pt"
+            android:gravity="center">
+            <TextView
+                android:text="Number of times bounced       "
+                android:textColor="@color/black"
+                android:textSize="9pt"/>
+            <TextView
+                android:id="@+id/stats_bounce"
+                android:text="421"
+                android:textColor="@color/black"
+                android:textSize="9pt"/>
+            <TextView
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="9pt"/>
+        </TableRow>
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="5pt"
+            android:gravity="center">
+            <TextView
+                android:text="Lowest Hunger"
+                android:textColor="@color/black"
+                android:textSize="9pt"/>
+            <TextView
+                android:id="@+id/stats_lowest_hunger"
+                android:text="3"
+                android:textColor="@color/black"
+                android:textSize="9pt"/>
+            <TextView
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="9pt"/>
+        </TableRow>
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="5pt"
+            android:gravity="center">
+            <TextView
+                android:text="Lowest Strength"
+                android:textColor="@color/black"
+                android:textSize="9pt"/>
+            <TextView
+                android:id="@+id/stats_lowest_strength"
+                android:text="100"
+                android:textColor="@color/black"
+                android:textSize="9pt"/>
+            <TextView
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="9pt"/>
+        </TableRow>
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="5pt"
+            android:gravity="center">
+            <TextView
+                android:text="Lowest Happiness"
+                android:textColor="@color/black"
+                android:textSize="9pt"/>
+            <TextView
+                android:id="@+id/stats_lowest_happiness"
+                android:text="1"
+                android:textColor="@color/black"
+                android:textSize="9pt"/>
+            <TextView
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="9pt"/>
+        </TableRow>
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="5pt"
+            android:gravity="center">
+            <TextView
+                android:text="Highest Strength"
+                android:textColor="@color/black"
+                android:textSize="9pt"/>
+            <TextView
+                android:id="@+id/stats_highest_strength"
+                android:text="764"
+                android:textColor="@color/black"
+                android:textSize="9pt"/>
+            <TextView
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="9pt"/>
+        </TableRow>
+    </TableLayout>
+</LinearLayout>

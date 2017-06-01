@@ -5,12 +5,10 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,7 +16,7 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
-public class PlayActivity extends AppCompatActivity implements SensorEventListener{
+public class PlayActivity extends AppCompatActivity implements SensorEventListener, Ballo.Events {
 
     private static final String TAG = "Play";
 
@@ -32,10 +30,17 @@ public class PlayActivity extends AppCompatActivity implements SensorEventListen
     private Ballo ballo;
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ballo.destroy();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
         ballo = Ballo.getBallo(this);
+        ballo.setEventHandler(this);
 
         view = (DrawingSurfaceView)findViewById(R.id.drawingView);
         ballo.cy = view.getHeight() - (view.getHeight() / 3);
@@ -112,5 +117,10 @@ public class PlayActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
         // Ignore
+    }
+
+    @Override
+    public void onUpdate() {
+        Ballo.saveBallo(this, ballo);
     }
 }
