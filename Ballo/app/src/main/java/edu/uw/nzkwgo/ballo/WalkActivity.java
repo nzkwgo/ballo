@@ -3,12 +3,11 @@ package edu.uw.nzkwgo.ballo;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -23,10 +22,14 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -38,6 +41,8 @@ import java.util.Locale;
 public class WalkActivity extends AppCompatActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         LocationListener, Ballo.Events {
+
+    private static final int MARKER_SIZE = 36;
 
     private GoogleMap mMap;
     private LocationRequest mLocationRequest;
@@ -55,11 +60,15 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
     private TextView happinessText;
     private TextView strengthText;
 
+    private BitmapDescriptor balloMarkerImage;
+    private Marker currentPositionMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        MapsInitializer.initialize(getApplicationContext());
+        balloMarkerImage = BitmapDescriptorFactory.defaultMarker();
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(10000);
         mLocationRequest.setFastestInterval(1000);
@@ -131,9 +140,6 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
                 mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                         mGoogleApiClient);
 
-            mMap.setMyLocationEnabled(true);
-
-
             if (mLastLocation != null) {
                     LatLng lastPosition = getLatLng(mLastLocation);
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(lastPosition));
@@ -170,6 +176,16 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onLocationChanged(Location location) {
+        // Update marker
+        if (currentPositionMarker != null) {
+            currentPositionMarker.remove();
+        }
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.icon(balloMarkerImage);
+        markerOptions.position(new LatLng(location.getLatitude(), location.getLongitude()));
+        currentPositionMarker = mMap.addMarker(markerOptions);
+
+        // Move camera
         mMap.animateCamera(CameraUpdateFactory.newLatLng(getLatLng(location)));
         double currDist = distance(mLastLocation.getLatitude(), mLastLocation.getLongitude(),
                 location.getLatitude(), location.getLongitude());
@@ -264,6 +280,11 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
         strengthText.setText(String.format(Locale.ENGLISH, "Strength: %d", ballo.getStrength()));
         happinessText.setText(String.format(Locale.ENGLISH, "Happiness: %d", ballo.getHappiness()));
         hungerText.setText(String.format(Locale.ENGLISH, "Hunger: %d", ballo.getHappiness()));
+
+        Bitmap markerImageFullsize = BitmapFactory.decodeResource(getResources(), getResources()
+                .getIdentifier(ballo.getImgURL(), "drawable", getPackageName()));
+        balloMarkerImage = BitmapDescriptorFactory.fromBitmap(
+                Bitmap.createScaledBitmap(markerImageFullsize, MARKER_SIZE, MARKER_SIZE, false));
 
         Ballo.saveBallo(this, ballo);
     }
