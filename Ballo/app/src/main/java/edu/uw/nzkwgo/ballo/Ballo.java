@@ -93,7 +93,7 @@ public class Ballo {
     private double lowestStrength;
     private double lowestHunger;
     private double highestStrength;
-    private String deathStatus;
+    private String statusText;
     private String imgURL;
     private long lastDecayUpdateTime;
 
@@ -117,7 +117,7 @@ public class Ballo {
         lowestStrength = 100;
         lowestHunger = 100;
         highestStrength = 100;
-        deathStatus = "";
+        statusText = "Ballo is doing good! Ballo loves you.";
         imgURL = BASIC_BALLO;
         lastDecayUpdateTime = (new Date()).getTime();
 
@@ -153,7 +153,7 @@ public class Ballo {
             setStrength(strength - 1);
         }
         timesBounced++;
-        updateImg();
+        //updateImg();
     }
 
     //Changes Ballo's stats based on a quarter mile's worth of walking.
@@ -189,7 +189,7 @@ public class Ballo {
 
     //returns whether or not Ballo is dead
     public boolean isDead() {
-        return !deathStatus.isEmpty();
+        return statusText.contains("died") || statusText.contains("death");
     }
 
     public int getHunger() {
@@ -206,6 +206,10 @@ public class Ballo {
 
     public String getName() {
         return name;
+    }
+
+    public String getStatusText() {
+        return statusText;
     }
 
     // To get the R.drawable version of the url, call
@@ -328,7 +332,7 @@ public class Ballo {
 
     //Kills ballo, setting his death message to the passed string
     private void kill(String status) {
-        this.deathStatus = status;
+        this.statusText = status;
         imgURL = DEAD_BALLO;
         notifyUpdate();
     }
@@ -337,12 +341,19 @@ public class Ballo {
     public void updateImg() {
         if (hunger > 50 && happiness > 50 && strength > 50) {
             imgURL = BASIC_BALLO;
+            statusText = "Ballo is doing good! Ballo loves you.";
+
+        } else if (hunger <= 0 || happiness <= 0 || strength <= 0) {
+            imgURL = DEAD_BALLO;
         } else if (hunger < 50 && hunger <= happiness && hunger <= strength) {
             imgURL = HUNGRY_BALLO;
+            statusText = "Ballo's starving. Feed him some food.";
         } else if (happiness < 50 && happiness <= hunger && happiness <= strength) {
             imgURL = SAD_BALLO;
+            statusText = "Ballo's feeling blue. You should play with him.";
         } else if (strength < 50 && strength <= hunger && strength <= happiness) {
             imgURL = UNHEALTHY_BALLO;
+            statusText = "Ballo's looking weak. Maybe take him outside!";
         }
         notifyUpdate();
     }

@@ -1,5 +1,7 @@
 package edu.uw.nzkwgo.ballo;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
@@ -10,6 +12,9 @@ import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 public class PlayActivity extends AppCompatActivity implements SensorEventListener, Ballo.Events {
 
@@ -38,6 +43,7 @@ public class PlayActivity extends AppCompatActivity implements SensorEventListen
         ballo.setEventHandler(this);
 
         view = (DrawingSurfaceView)findViewById(R.id.drawingView);
+        ballo.cy = view.getHeight() - (view.getHeight() / 3);
 
         mSensorMgr = (SensorManager) getSystemService(SENSOR_SERVICE);
         // Listen for shakes
@@ -46,6 +52,9 @@ public class PlayActivity extends AppCompatActivity implements SensorEventListen
         if (accelerometer != null) {
             mSensorMgr.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         }
+
+        TextView playVal = (TextView) findViewById(R.id.playVal);
+        playVal.setText("Happiness: " + ballo.getHappiness() + " Strength: " + ballo.getStrength());
 
         findViewById(R.id.homeBtn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,26 +81,37 @@ public class PlayActivity extends AppCompatActivity implements SensorEventListen
                 if (acceleration > SHAKE_THRESHOLD) {
                     mLastShakeTime = curTime;
                     //Shook
-                    bounceAnim();
+                    view.ballo = ballo;
+                    view.ballo.cy = view.getHeight() - (view.getHeight() / 3);
+                    bounceAnim(acceleration);
                     ballo.bounce();
+
+                    TextView playVal = (TextView) findViewById(R.id.playVal);
+                    playVal.setText("Happiness: " + ballo.getHappiness() + " Strength: " + ballo.getStrength());
+
                     Ballo.saveBallo(this, ballo);
                 }
             }
         }
     }
 
-    public void bounceAnim() {
+    public void bounceAnim(double acceleration) {
         view.ballo.setImgURL("excited_ballo");
-
-        ObjectAnimator upAnim = ObjectAnimator.ofFloat(view.ballo, "Cy", 500);
+        ObjectAnimator upAnim = ObjectAnimator.ofFloat(view.ballo, "Cy", view.getHeight() - (2 * view.getHeight() / 3));
         upAnim.setDuration(500);
-        ObjectAnimator downAnim = ObjectAnimator.ofFloat(view.ballo, "Cy", view.getHeight() - 400);
+
+        ObjectAnimator downAnim = ObjectAnimator.ofFloat(view.ballo, "Cy", view.getHeight() - (view.getHeight() / 3));
         downAnim.setDuration(400);
+        downAnim.addListener(new AnimatorListenerAdapter() {
+             @Override
+             public void onAnimationEnd(Animator animation) {
+                 view.ballo.updateImg();
+             }
+        });
 
         AnimatorSet set = new AnimatorSet();
         set.playSequentially(upAnim, downAnim);
         set.start();
-        view.ballo.updateImg();
     }
 
     @Override
