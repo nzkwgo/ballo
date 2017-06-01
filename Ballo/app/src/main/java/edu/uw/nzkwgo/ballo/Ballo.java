@@ -160,7 +160,7 @@ public class Ballo {
     //Should be called after walking a quarter mile
     public void walk(double distance) {
         Log.v("BALLO", "walk method");
-        setStrength(strength + distance);
+        setStrength(strength + distance / 2);
         setHunger(hunger - (distance/100));
         distanceWalked += distance;
     }

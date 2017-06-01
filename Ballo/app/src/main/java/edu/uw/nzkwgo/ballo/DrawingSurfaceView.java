@@ -62,7 +62,8 @@ public class DrawingSurfaceView extends SurfaceView implements SurfaceHolder.Cal
      * Initialize graphical drawing state
      */
     public void init() {
-        ballo = Ballo.getBallo(getContext());
+        ballo = new Ballo();
+        ballo.cy = viewHeight - (viewHeight / 3);
     }
 
 
