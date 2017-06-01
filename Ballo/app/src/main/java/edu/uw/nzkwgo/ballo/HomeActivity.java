@@ -82,6 +82,8 @@ public class HomeActivity extends AppCompatActivity implements Ballo.Events {
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         String text = settings.getString("listpreference_level", "default");
+        String name = settings.getString("name_pref", "default");
+        ballo.setName(name);
 
         if (text.equals("1")) {
             ballo.HAPPINESS_DECAY_PER_HOUR = 4;
