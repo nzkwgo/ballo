@@ -84,9 +84,9 @@ public class DrawingSurfaceView extends SurfaceView implements SurfaceHolder.Cal
 
         int imgID = getResources().getIdentifier(ballo.getImgURL() , "drawable", getContext().getPackageName());
         Bitmap img = BitmapFactory.decodeResource(getResources(), imgID);
-        Bitmap scaledImg = Bitmap.createScaledBitmap(img, 400, 400, false);
+        Bitmap scaledImg = Bitmap.createScaledBitmap(img, viewHeight / 3, viewHeight / 3, false);
 
-        canvas.drawBitmap(scaledImg, viewWidth / 2 - 200, ballo.cy, null);
+        canvas.drawBitmap(scaledImg, viewWidth / 2 - (viewHeight / 6), ballo.cy, null);
 
     }
 
