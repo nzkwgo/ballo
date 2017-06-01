@@ -5,6 +5,9 @@ import com.google.gson.Gson;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.ListPreference;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -17,7 +20,7 @@ import edu.uw.nzkwgo.ballo.leaderboard.LeaderboardUtil;
 /**
  * The pet.
  */
-public class Ballo {
+public class Ballo  {
     // Events Ballo may produce.
     public interface Events {
         // Triggers when Ballo has been updated in any way (image, happiness, hunger, strength, etc)
@@ -30,9 +33,9 @@ public class Ballo {
     private static final String HUNGRY_BALLO = "hungry_ballo";
     private static final String DEAD_BALLO = "dead_ballo";
 
-    private static final double HAPPINESS_DECAY_PER_HOUR = 4;
-    private static final double HUNGER_DECAY_PER_HOUR = 2;
-    private static final double STRENGTH_DECAY_PER_HOUR = 1;
+    public double HAPPINESS_DECAY_PER_HOUR = 4;
+    public double HUNGER_DECAY_PER_HOUR = 2;
+    public double STRENGTH_DECAY_PER_HOUR = 1;
 
     private static final String BALLO_PREFERENCE_STATE_ID = "ballo-state-pref";
     private static final String BALLO_OBJECT_ID = "ballo";
@@ -40,6 +43,7 @@ public class Ballo {
     private static final long DECAY_TIMER_MS = 1000 * 60 * 5; // 5 minutes
 
     private static Gson gson;
+
 
     /**
      * @param ctx Pass the current activity
@@ -100,6 +104,7 @@ public class Ballo {
     private String statusText;
     private String imgURL;
     private long lastDecayUpdateTime;
+    public String difficulty;
 
     private transient Events eventHandler;
     private transient Timer decayTimer;
