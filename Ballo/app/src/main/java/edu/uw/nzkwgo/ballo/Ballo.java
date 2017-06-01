@@ -12,6 +12,8 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import edu.uw.nzkwgo.ballo.leaderboard.LeaderboardUtil;
+
 /**
  * The pet.
  */
@@ -73,6 +75,7 @@ public class Ballo {
         SharedPreferences pref =
                 ctx.getSharedPreferences(BALLO_PREFERENCE_STATE_ID, Context.MODE_PRIVATE);
         pref.edit().putString(BALLO_OBJECT_ID, getGson().toJson(ballo)).apply();
+        LeaderboardUtil.storeScore(ctx, ballo.getName(), ballo.getHighestStrength());
     }
 
     private static Gson getGson() {
@@ -160,12 +163,15 @@ public class Ballo {
     //Changes Ballo's stats based on a quarter mile's worth of walking.
     //Should be called after walking a quarter mile
     public void walk(double distance) {
-        if (distance == Double.NaN) {
+        if (Double.isNaN(distance)) {
             return;
         }
 
         Log.v("BALLO", "walk method: " + distance);
-        setStrength(strength + distance);
+        setStrength(strength + distance / 10);
+        // easy: divide by 2
+        // medium: divide by 10
+        // hard: divide by 20
         setHunger(hunger - (distance/10));
         distanceWalked += distance;
     }
@@ -281,7 +287,7 @@ public class Ballo {
 
     //Sets hunger. Cannot exceed 100. Ballo dies when hunger drops below 0
     private void setHunger(double hunger) {
-        if (hunger == Double.NaN) {
+        if (Double.isNaN(hunger)) {
             return;
         }
 
@@ -302,11 +308,13 @@ public class Ballo {
 
     //Sets happiness. Cannot exceed 100. Ballo dies when happiness drops below 0
     private void setHappiness(double happiness) {
-        if (happiness == Double.NaN) {
+        if (Double.isNaN(happiness)) {
             return;
         }
 
         this.happiness = happiness;
+
+        Log.v("BALLO", "happiness = " + happiness);
 
         if (this.happiness > 100) {
             this.happiness = 100;
@@ -325,7 +333,7 @@ public class Ballo {
 
     //Sets strength. Ballo dies when strength drops below 0
     private void setStrength(double strength) {
-        if (strength == Double.NaN) {
+        if (Double.isNaN(strength)) {
             return;
         }
 

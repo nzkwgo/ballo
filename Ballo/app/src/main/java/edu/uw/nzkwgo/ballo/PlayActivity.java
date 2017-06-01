@@ -119,11 +119,16 @@ public class PlayActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     public void onUpdate() {
-
+        if (ballo == null) {
+            return;
+        }
+      
         if (ballo.isDead()) {
             mSensorMgr.unregisterListener(this);
             startActivity(new Intent(PlayActivity.this, StatsActivity.class));
         }
+
+        TextView playVal = (TextView) findViewById(R.id.playVal);
         playVal.setText("Hunger: " + ballo.getHunger() + " Happiness: " + ballo.getHappiness() + " Strength: " + ballo.getStrength());
         Ballo.saveBallo(this, ballo);
     }
