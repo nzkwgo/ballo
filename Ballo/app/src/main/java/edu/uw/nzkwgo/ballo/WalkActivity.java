@@ -200,6 +200,11 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onConnectionSuspended(int i) {
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ballo.destroy();
+    }
 
     /**
      * Manipulates the map once available.

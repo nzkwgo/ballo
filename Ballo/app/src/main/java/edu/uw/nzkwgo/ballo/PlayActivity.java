@@ -27,6 +27,11 @@ public class PlayActivity extends AppCompatActivity implements SensorEventListen
     private Ballo ballo;
 
     @Override
+    protected void onDestroy() {
+        ballo.destroy();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);

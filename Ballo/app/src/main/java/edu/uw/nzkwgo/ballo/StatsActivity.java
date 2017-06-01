@@ -14,6 +14,14 @@ public class StatsActivity extends AppCompatActivity {
     private TextView lowestHunger;
     private TextView lowestStrength;
 
+    private Ballo ballo;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ballo.destroy();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +37,7 @@ public class StatsActivity extends AppCompatActivity {
         lowestHunger = (TextView) findViewById(R.id.stats_lowest_health);
         lowestStrength = (TextView) findViewById(R.id.stats_lowest_strength);
 
-        Ballo ballo = new Ballo();
+        ballo = new Ballo();
         age.setText("" + ballo.getAge());
         bounce.setText("" + ballo.getTimesBounced());
         distance.setText("" + ballo.getDistanceWalked());
