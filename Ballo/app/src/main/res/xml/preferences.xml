@@ -6,5 +6,6 @@
         android:title="Pick Level"
         android:summary="that is appropriate for your skill"
         android:entries="@array/listentries"
+        android:entryValues="@array/listvalues"
         />
 </PreferenceScreen>
