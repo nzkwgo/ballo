@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.Date;
@@ -61,7 +63,7 @@ public class Ballo {
     public static void saveBallo(Context ctx, Ballo ballo) {
         SharedPreferences pref =
                 ctx.getSharedPreferences(BALLO_PREFERENCE_STATE_ID, Context.MODE_PRIVATE);
-        pref.edit().putString(BALLO_OBJECT_ID, getGson().toJson(ballo)).apply();
+        pref.edit().putString(BALLO_OBJECT_ID, getGson().toJson(ballo)).commit();
     }
 
     private static Gson getGson() {
@@ -135,8 +137,9 @@ public class Ballo {
     //Changes Ballo's stats based on a quarter mile's worth of walking.
     //Should be called after walking a quarter mile
     public void walk(double distance) {
-        setStrength(strength + (10 * distance));
-        setHunger(hunger - (3 * distance));
+        Log.v("BALLO", "walk method");
+        setStrength(strength + distance);
+        setHunger(hunger - (distance/10));
         distanceWalked += distance;
     }
 
@@ -237,13 +240,17 @@ public class Ballo {
         }
 
         public void setCy(float cy) {
-            imgURL = "excited_ballo";
             this.cy = cy;
         }
+
+    public void setImgURL(String imgURL) {
+        this.imgURL = imgURL;
+    }
 
     //Sets hunger. Cannot exceed 100. Ballo dies when hunger drops below 0
     private void setHunger(double hunger) {
         this.hunger = hunger;
+        Log.v("BALLO", "Set hunger to " + this.hunger);
         if (this.hunger > 100) {
             this.hunger = 100;
         } else if (this.hunger <= 0) {
@@ -276,6 +283,8 @@ public class Ballo {
     private void setStrength(double strength) {
         this.strength = strength;
 
+        Log.v("BALLO", "Set strength to" + this.strength);
+
         if (this.strength <= 0) {
             this.strength = 0;
             kill(this.name + " got too weak and died. Next time walk it more often!");
@@ -294,7 +303,7 @@ public class Ballo {
     }
 
     //Updates Ballo's sprite to reflect his lowest stat under 50
-    private void updateImg() {
+    public void updateImg() {
         if (hunger > 50 && happiness > 50 && strength > 50) {
             imgURL = BASIC_BALLO;
         } else if (hunger < 50 && hunger <= happiness && hunger <= strength) {

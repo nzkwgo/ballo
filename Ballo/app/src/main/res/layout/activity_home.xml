@@ -25,14 +25,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/home_hunger_text"
-                android:layout_marginRight="80sp"
+                android:layout_marginRight="90sp"
                 />
 
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/home_happiness_text"
-                android:layout_marginRight="50sp"
+                android:layout_marginRight="70sp"
                 />
 
         <TextView
@@ -51,21 +51,23 @@
         android:layout_marginLeft="10sp"
         >
 
-        <SeekBar
+        <ProgressBar
             android:id="@+id/hungerVal"
             android:layout_width="110sp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10sp"
-            android:max="100"
+            android:layout_height="10sp"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:progressTint="@color/colorAccent"
+            android:layout_marginRight="25sp"
             android:progress="100"
             />
 
-        <SeekBar
+        <ProgressBar
             android:id="@+id/happinessVal"
             android:layout_width="110sp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="15sp"
-            android:max="100"
+            android:layout_height="10sp"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_marginRight="25sp"
+            android:progressTint="@color/colorAccent"
             android:progress="100"
             />
 

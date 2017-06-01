@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -22,8 +23,8 @@ public class HomeActivity extends AppCompatActivity {
 
     private Ballo ballo;
     private TextView name;
-    private SeekBar hunger;
-    private SeekBar happiness;
+    private ProgressBar hunger;
+    private ProgressBar happiness;
     private TextView strength;
     private ImageView balloAvatar;
 
@@ -36,24 +37,24 @@ public class HomeActivity extends AppCompatActivity {
 
         // Get UI views
         name = (TextView) findViewById(R.id.homeName);
-        hunger = (SeekBar) findViewById(R.id.hungerVal);
-        happiness = (SeekBar) findViewById(R.id.happinessVal);
+        hunger = (ProgressBar) findViewById(R.id.hungerVal);
+        happiness = (ProgressBar) findViewById(R.id.happinessVal);
         strength = (TextView) findViewById(R.id.strengthVal);
         balloAvatar = (ImageView) findViewById(R.id.ballo);
 
         // Set so you can't set the seekbar
-        hunger.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                return true;
-            }
-        });
-        happiness.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                return true;
-            }
-        });
+//        hunger.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//                return true;
+//            }
+//        });
+//        happiness.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//                return true;
+//            }
+//        });
 
         // Set button onclick actions
         findViewById(R.id.feedBtn).setOnClickListener(new View.OnClickListener() {
@@ -61,6 +62,8 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // TODO: Implement feed action
                 ballo.feed();
+                ProgressBar hungerBar = (ProgressBar)findViewById(R.id.hungerVal);
+                hungerBar.setProgress(ballo.getHunger());
             }
         });
         findViewById(R.id.walkBtn).setOnClickListener(new View.OnClickListener() {

@@ -2,6 +2,7 @@ package edu.uw.nzkwgo.ballo;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -10,6 +11,7 @@ import android.hardware.SensorManager;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 public class PlayActivity extends AppCompatActivity implements SensorEventListener{
 
@@ -28,7 +30,7 @@ public class PlayActivity extends AppCompatActivity implements SensorEventListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
-        ballo = new Ballo(); //todo: change to the shared Ballo
+        ballo = Ballo.getBallo(this);
 
         view = (DrawingSurfaceView)findViewById(R.id.drawingView);
 
@@ -39,6 +41,13 @@ public class PlayActivity extends AppCompatActivity implements SensorEventListen
         if (accelerometer != null) {
             mSensorMgr.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         }
+
+        findViewById(R.id.homeBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(PlayActivity.this, HomeActivity.class));
+            }
+        });
     }
     @Override
 
@@ -60,12 +69,15 @@ public class PlayActivity extends AppCompatActivity implements SensorEventListen
                     //Shook
                     bounceAnim();
                     ballo.bounce();
+                    Ballo.saveBallo(this, ballo);
                 }
             }
         }
     }
 
     public void bounceAnim() {
+        view.ballo.setImgURL("excited_ballo");
+
         ObjectAnimator upAnim = ObjectAnimator.ofFloat(view.ballo, "Cy", 500);
         upAnim.setDuration(500);
         ObjectAnimator downAnim = ObjectAnimator.ofFloat(view.ballo, "Cy", view.getHeight() - 400);
@@ -74,6 +86,7 @@ public class PlayActivity extends AppCompatActivity implements SensorEventListen
         AnimatorSet set = new AnimatorSet();
         set.playSequentially(upAnim, downAnim);
         set.start();
+        view.ballo.updateImg();
     }
 
     @Override
