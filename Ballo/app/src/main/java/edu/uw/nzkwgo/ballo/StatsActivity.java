@@ -37,8 +37,9 @@ public class StatsActivity extends AppCompatActivity implements Ballo.Events {
         lowestHunger = (TextView) findViewById(R.id.stats_lowest_hunger);
         lowestStrength = (TextView) findViewById(R.id.stats_lowest_strength);
 
-        ballo = new Ballo();
-        ballo.setEventHandler(this);
+
+        Ballo ballo = Ballo.getBallo(this);
+
         age.setText("" + ballo.getAge());
         bounce.setText("" + ballo.getTimesBounced());
         distance.setText("" + ballo.getDistanceWalked());

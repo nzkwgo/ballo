@@ -3,12 +3,15 @@ package edu.uw.nzkwgo.ballo;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -96,6 +99,36 @@ public class HomeActivity extends AppCompatActivity implements Ballo.Events {
         ballo = null;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item_stats: {
+                Toast.makeText(this, "Stats", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(HomeActivity.this, StatsActivity.class));
+                return true;
+            }
+            case R.id.item_leader_board: {
+                Toast.makeText(this, "Leaderboard", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(HomeActivity.this, LeaderboardActivity.class));
+                return true;
+            }
+            case R.id.item_settings: {
+                Toast.makeText(this, "Leaderboard", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(HomeActivity.this, SettingActivity.class));
+                return true;
+            }
+            default: {
+                return super.onOptionsItemSelected(item);
+            }
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate menu resource file.
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
     // Updates the screen to reflect ballo's current state.
 
     @Override
