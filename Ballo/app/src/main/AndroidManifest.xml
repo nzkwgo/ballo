@@ -39,7 +39,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBNg1yFGIuvATC9SMmpvyaPSqT0gwWpXDg" />
+            android:value="AIzaSyCPBsG7ImOL1PBDcmr0uwlPi7mPnG0jXdI" />
 
         <activity
             android:name=".WalkActivity"
