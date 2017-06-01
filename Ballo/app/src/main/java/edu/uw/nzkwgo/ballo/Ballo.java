@@ -139,7 +139,7 @@ public class Ballo {
     public void walk(double distance) {
         Log.v("BALLO", "walk method");
         setStrength(strength + distance);
-        setHunger(hunger - (distance/10));
+        setHunger(hunger - (distance/100));
         distanceWalked += distance;
     }
 
@@ -266,6 +266,8 @@ public class Ballo {
     //Sets happiness. Cannot exceed 100. Ballo dies when happiness drops below 0
     private void setHappiness(double happiness) {
         this.happiness = happiness;
+
+        Log.v("BALLO", "happiness = " + happiness);
 
         if (this.happiness > 100) {
             this.happiness = 100;
