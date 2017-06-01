@@ -13,7 +13,7 @@
         android:gravity="center"
         android:text="Stats"
         android:textStyle="bold"
-        android:textSize="20pt"
+        android:textSize="36sp"
         android:layout_marginBottom="10pt"
         android:textColor="@color/black"
     />
@@ -27,7 +27,7 @@
 
         android:layout_marginBottom="10pt"
         android:textColor="@color/red"
-        android:textSize="10pt"/>
+        android:textSize="22sp"/>
 
     <TableLayout
         android:layout_width="match_parent"
@@ -40,16 +40,16 @@
             <TextView
                 android:text="Age"
                 android:textColor="@color/black"
-                android:textSize="9pt"/>
+                android:textSize="20sp"/>
             <TextView
                 android:id="@+id/stats_age"
                 android:text="385"
                 android:textColor="@color/black"
-                android:textSize="9pt"/>
+                android:textSize="20sp"/>
             <TextView
                 android:text="days"
                 android:textColor="@color/black"
-                android:textSize="9pt"/>
+                android:textSize="20sp"/>
         </TableRow>
         <TableRow
             android:layout_height="wrap_content"
@@ -59,16 +59,16 @@
             <TextView
                 android:text="Distance Walked"
                 android:textColor="@color/black"
-                android:textSize="9pt"/>
+                android:textSize="20sp"/>
             <TextView
                 android:id="@+id/stats_distance"
                 android:text="290.00"
                 android:textColor="@color/black"
-                android:textSize="9pt"/>
+                android:textSize="20sp"/>
             <TextView
                 android:text="  miles"
                 android:textColor="@color/black"
-                android:textSize="9pt"/>
+                android:textSize="20sp"/>
         </TableRow>
         <TableRow
             android:layout_height="wrap_content"
@@ -78,16 +78,16 @@
             <TextView
                 android:text="Number of times fed"
                 android:textColor="@color/black"
-                android:textSize="9pt"/>
+                android:textSize="20sp"/>
             <TextView
                 android:id="@+id/stats_fed"
                 android:text="421"
                 android:textColor="@color/black"
-                android:textSize="9pt"/>
+                android:textSize="20sp"/>
             <TextView
                 android:text=""
                 android:textColor="@color/black"
-                android:textSize="9pt"/>
+                android:textSize="20sp"/>
         </TableRow>
         <TableRow
             android:layout_height="wrap_content"
@@ -97,16 +97,16 @@
             <TextView
                 android:text="Number of times bounced       "
                 android:textColor="@color/black"
-                android:textSize="9pt"/>
+                android:textSize="20sp"/>
             <TextView
                 android:id="@+id/stats_bounce"
                 android:text="421"
                 android:textColor="@color/black"
-                android:textSize="9pt"/>
+                android:textSize="20sp"/>
             <TextView
                 android:text=""
                 android:textColor="@color/black"
-                android:textSize="9pt"/>
+                android:textSize="20sp"/>
         </TableRow>
         <TableRow
             android:layout_height="wrap_content"
@@ -116,16 +116,16 @@
             <TextView
                 android:text="Lowest Hunger"
                 android:textColor="@color/black"
-                android:textSize="9pt"/>
+                android:textSize="20sp"/>
             <TextView
                 android:id="@+id/stats_lowest_hunger"
                 android:text="3"
                 android:textColor="@color/black"
-                android:textSize="9pt"/>
+                android:textSize="20sp"/>
             <TextView
                 android:text=""
                 android:textColor="@color/black"
-                android:textSize="9pt"/>
+                android:textSize="20sp"/>
         </TableRow>
         <TableRow
             android:layout_height="wrap_content"
@@ -135,16 +135,16 @@
             <TextView
                 android:text="Lowest Strength"
                 android:textColor="@color/black"
-                android:textSize="9pt"/>
+                android:textSize="20sp"/>
             <TextView
                 android:id="@+id/stats_lowest_strength"
                 android:text="100"
                 android:textColor="@color/black"
-                android:textSize="9pt"/>
+                android:textSize="20sp"/>
             <TextView
                 android:text=""
                 android:textColor="@color/black"
-                android:textSize="9pt"/>
+                android:textSize="20sp"/>
         </TableRow>
         <TableRow
             android:layout_height="wrap_content"
@@ -154,16 +154,16 @@
             <TextView
                 android:text="Lowest Happiness"
                 android:textColor="@color/black"
-                android:textSize="9pt"/>
+                android:textSize="20sp"/>
             <TextView
                 android:id="@+id/stats_lowest_happiness"
                 android:text="1"
                 android:textColor="@color/black"
-                android:textSize="9pt"/>
+                android:textSize="20sp"/>
             <TextView
                 android:text=""
                 android:textColor="@color/black"
-                android:textSize="9pt"/>
+                android:textSize="20sp"/>
         </TableRow>
         <TableRow
             android:layout_height="wrap_content"
@@ -173,16 +173,16 @@
             <TextView
                 android:text="Highest Strength"
                 android:textColor="@color/black"
-                android:textSize="9pt"/>
+                android:textSize="20sp"/>
             <TextView
                 android:id="@+id/stats_highest_strength"
                 android:text="764"
                 android:textColor="@color/black"
-                android:textSize="9pt"/>
+                android:textSize="20sp"/>
             <TextView
                 android:text=""
                 android:textColor="@color/black"
-                android:textSize="9pt"/>
+                android:textSize="20sp"/>
         </TableRow>
     </TableLayout>
     <Button

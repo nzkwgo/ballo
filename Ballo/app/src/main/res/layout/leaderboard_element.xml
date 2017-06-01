@@ -13,7 +13,8 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:id="@+id/leaderboardElementName"
-            android:textSize="24sp"/>
+            android:textColor="@color/black"
+            android:textSize="22sp"/>
 
     <TextView
             android:text="@string/example_leaderboard_score"
@@ -22,6 +23,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/leaderboardElementScore"
             android:textAlignment="textEnd"
+            android:textColor="@color/black"
             android:gravity="right"
         />
 </LinearLayout>
