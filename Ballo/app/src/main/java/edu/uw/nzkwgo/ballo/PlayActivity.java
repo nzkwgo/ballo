@@ -118,6 +118,12 @@ public class PlayActivity extends AppCompatActivity implements SensorEventListen
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        mSensorMgr.unregisterListener(this);
+    }
+
+    @Override
     public void onUpdate() {
         if (ballo == null) {
             return;

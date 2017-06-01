@@ -43,19 +43,6 @@ public class HomeActivity extends AppCompatActivity implements Ballo.Events {
         balloAvatar = (ImageView) findViewById(R.id.ballo);
         status = (TextView) findViewById(R.id.status);
 
-        // Set so you can't set the seekbar
-//        hunger.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//                return true;
-//            }
-//        });
-//        happiness.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//                return true;
-//            }
-//        });
 
         // Set button onclick actions
         findViewById(R.id.feedBtn).setOnClickListener(new View.OnClickListener() {
