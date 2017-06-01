@@ -34,7 +34,7 @@ public class StatsActivity extends AppCompatActivity implements Ballo.Events {
         fed = (TextView) findViewById(R.id.stats_fed);
         lowestHappiness = (TextView) findViewById(R.id.stats_lowest_happiness);
         highestStrength = (TextView) findViewById(R.id.stats_highest_strength);
-        lowestHunger = (TextView) findViewById(R.id.stats_lowest_health);
+        lowestHunger = (TextView) findViewById(R.id.stats_lowest_hunger);
         lowestStrength = (TextView) findViewById(R.id.stats_lowest_strength);
 
         ballo = new Ballo();
