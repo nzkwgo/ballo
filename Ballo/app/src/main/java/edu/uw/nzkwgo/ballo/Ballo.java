@@ -74,7 +74,7 @@ public class Ballo {
         SharedPreferences pref =
                 ctx.getSharedPreferences(BALLO_PREFERENCE_STATE_ID, Context.MODE_PRIVATE);
         pref.edit().putString(BALLO_OBJECT_ID, getGson().toJson(ballo)).apply();
-        LeaderboardUtil.storeScore(ctx, ballo.getName(), ballo.getStrength());
+        LeaderboardUtil.storeScore(ctx, ballo.getName(), ballo.getHighestStrength());
     }
 
     private static Gson getGson() {
