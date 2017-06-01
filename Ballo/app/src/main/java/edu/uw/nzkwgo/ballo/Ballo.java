@@ -164,7 +164,10 @@ public class Ballo {
         }
 
         Log.v("BALLO", "walk method: " + distance);
-        setStrength(strength + distance / 2);
+        setStrength(strength + distance / 10);
+        // easy: divide by 2
+        // medium: divide by 10
+        // hard: divide by 20
         setHunger(hunger - (distance/10));
         distanceWalked += distance;
     }
