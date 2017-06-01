@@ -1,15 +1,19 @@
 package edu.uw.nzkwgo.ballo;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -29,6 +33,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class WalkActivity extends AppCompatActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
@@ -45,6 +50,10 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
     private boolean isPenning = false;
     private double dist;
     private Ballo ballo;
+
+    private TextView hungerText;
+    private TextView happinessText;
+    private TextView strengthText;
 
 
     @Override
@@ -64,15 +73,32 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         setContentView(R.layout.activity_walk);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        dist = 0;
+        // Wire the action button
+        findViewById(R.id.walkEndButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(WalkActivity.this, "Completed your walk!", Toast.LENGTH_SHORT)
+                        .show();
+                startActivity(new Intent(WalkActivity.this, HomeActivity.class));
+            }
+        });
 
         ballo = Ballo.getBallo(this);
         ballo.setEventHandler(this);
+
+        // Get text fns
+        hungerText = (TextView) findViewById(R.id.walkHungerText);
+        happinessText = (TextView) findViewById(R.id.walkHappinessText);
+        strengthText = (TextView) findViewById(R.id.walkStrengthText);
+        onUpdate();
+
+        dist = 0;
     }
 
     @Override
@@ -153,7 +179,6 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // trying updating strength everytime location changes
         ballo.walk(currDist);
-        Ballo.saveBallo(this, ballo);
 
         mLastLocation = location;
         if (isPenning) {
@@ -236,6 +261,10 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onUpdate() {
+        strengthText.setText(String.format(Locale.ENGLISH, "Strength: %d", ballo.getStrength()));
+        happinessText.setText(String.format(Locale.ENGLISH, "Happiness: %d", ballo.getHappiness()));
+        hungerText.setText(String.format(Locale.ENGLISH, "Hunger: %d", ballo.getHappiness()));
+
         Ballo.saveBallo(this, ballo);
     }
 }
