@@ -20,5 +20,5 @@ Strength decays with time, but also in relation to the Ballo being played with i
 
 - Noah Ezekwugo
 - Kodlee Yin
-- Eui Yul Song
+- EuiYul Song
 - Tiffany Chen
