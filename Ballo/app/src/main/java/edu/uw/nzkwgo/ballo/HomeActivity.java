@@ -137,6 +137,10 @@ public class HomeActivity extends AppCompatActivity implements Ballo.Events {
             return;
         }
 
+        if (ballo.isDead()) {
+            startActivity(new Intent(HomeActivity.this, StatsActivity.class));
+        }
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
