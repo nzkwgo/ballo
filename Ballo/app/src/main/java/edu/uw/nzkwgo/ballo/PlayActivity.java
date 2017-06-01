@@ -54,7 +54,7 @@ public class PlayActivity extends AppCompatActivity implements SensorEventListen
         }
 
         TextView playVal = (TextView) findViewById(R.id.playVal);
-        playVal.setText("Happiness: " + ballo.getHappiness() + " Strength: " + ballo.getStrength());
+        playVal.setText("Hunger: " + ballo.getHunger() + " Happiness: " + ballo.getHappiness() + " Strength: " + ballo.getStrength());
 
         findViewById(R.id.homeBtn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,10 +85,6 @@ public class PlayActivity extends AppCompatActivity implements SensorEventListen
                     view.ballo.cy = view.getHeight() - (view.getHeight() / 3);
                     bounceAnim(acceleration);
                     ballo.bounce();
-
-                    TextView playVal = (TextView) findViewById(R.id.playVal);
-                    playVal.setText("Happiness: " + ballo.getHappiness() + " Strength: " + ballo.getStrength());
-
                     Ballo.saveBallo(this, ballo);
                 }
             }
@@ -121,6 +117,8 @@ public class PlayActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     public void onUpdate() {
+        TextView playVal = (TextView) findViewById(R.id.playVal);
+        playVal.setText("Hunger: " + ballo.getHunger() + " Happiness: " + ballo.getHappiness() + " Strength: " + ballo.getStrength());
         Ballo.saveBallo(this, ballo);
     }
 }
