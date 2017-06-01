@@ -373,19 +373,19 @@ public class Ballo  {
     public void updateImg() {
         if (hunger > 50 && happiness > 50 && strength > 50) {
             imgURL = BASIC_BALLO;
-            statusText = "Ballo is doing good! Ballo loves you.";
+            statusText = this.name + " is doing good! " + this.name + " loves you.";
 
         } else if (hunger <= 0 || happiness <= 0 || strength <= 0) {
             imgURL = DEAD_BALLO;
         } else if (hunger < 50 && hunger <= happiness && hunger <= strength) {
             imgURL = HUNGRY_BALLO;
-            statusText = "Ballo's starving. Feed him some food.";
+            statusText = this.name + " is starving. Feed it some food.";
         } else if (happiness < 50 && happiness <= hunger && happiness <= strength) {
             imgURL = SAD_BALLO;
-            statusText = "Ballo's feeling blue. You should play with him.";
+            statusText = this.name + " is feeling blue. You should play with it.";
         } else if (strength < 50 && strength <= hunger && strength <= happiness) {
             imgURL = UNHEALTHY_BALLO;
-            statusText = "Ballo's looking weak. Maybe take him outside!";
+            statusText = this.name + " is looking weak. Maybe take it outside!";
         }
         notifyUpdate();
     }
