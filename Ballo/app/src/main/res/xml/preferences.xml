@@ -9,4 +9,10 @@
         android:entries="@array/listentries"
         android:entryValues="@array/listvalues"
         />
+    <EditTextPreference
+        android:id="@+id/name_preference"
+        android:key="name_pref"
+        android:title="Change Name"
+        android:defaultValue="@string/home_name_placeholder"
+        />
 </PreferenceScreen>

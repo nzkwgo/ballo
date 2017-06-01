@@ -220,6 +220,10 @@ public class Ballo  {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getStatusText() {
         return statusText;
     }
