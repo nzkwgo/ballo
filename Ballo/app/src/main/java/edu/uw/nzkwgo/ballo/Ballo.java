@@ -11,6 +11,8 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import edu.uw.nzkwgo.ballo.leaderboard.LeaderboardUtil;
+
 /**
  * The pet.
  */
@@ -72,6 +74,7 @@ public class Ballo {
         SharedPreferences pref =
                 ctx.getSharedPreferences(BALLO_PREFERENCE_STATE_ID, Context.MODE_PRIVATE);
         pref.edit().putString(BALLO_OBJECT_ID, getGson().toJson(ballo)).apply();
+        LeaderboardUtil.storeScore(ctx, ballo.getName(), ballo.getStrength());
     }
 
     private static Gson getGson() {
