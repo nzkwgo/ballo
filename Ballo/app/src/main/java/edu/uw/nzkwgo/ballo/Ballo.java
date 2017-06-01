@@ -164,7 +164,10 @@ public class Ballo {
         }
 
         Log.v("BALLO", "walk method: " + distance);
-        setStrength(strength + distance);
+        setStrength(strength + distance / 10);
+        // easy: divide by 2
+        // medium: divide by 10
+        // hard: divide by 20
         setHunger(hunger - (distance/10));
         distanceWalked += distance;
     }
@@ -285,7 +288,6 @@ public class Ballo {
         }
 
         this.hunger = hunger;
-        Log.v("BALLO", "Set hunger to " + this.hunger);
         if (this.hunger > 100) {
             this.hunger = 100;
         } else if (this.hunger <= 0) {
@@ -295,6 +297,7 @@ public class Ballo {
             updateImg();
         }
 
+        Log.v("BALLO", "Set hunger to " + this.hunger);
         lowestHunger = Math.min(this.hunger, lowestHunger);
         notifyUpdate();
     }
@@ -307,6 +310,8 @@ public class Ballo {
 
         this.happiness = happiness;
 
+        Log.v("BALLO", "happiness = " + happiness);
+
         if (this.happiness > 100) {
             this.happiness = 100;
         } else if (this.happiness <= 0) {
@@ -315,6 +320,8 @@ public class Ballo {
         } else if (this.happiness < 50) {
             updateImg();
         }
+
+        Log.v("BALLO", "Set happiness to " + this.happiness);
 
         lowestHappiness = Math.min(this.happiness, lowestHappiness);
         notifyUpdate();
@@ -328,7 +335,6 @@ public class Ballo {
 
         this.strength = strength;
 
-        Log.v("BALLO", "Set strength to" + this.strength);
 
         if (this.strength <= 0) {
             this.strength = 0;
@@ -336,6 +342,7 @@ public class Ballo {
         } else if (this.strength < 50) {
             updateImg();
         }
+        Log.v("BALLO", "Set strength to " + this.strength);
 
         highestStrength = Math.max(this.strength, highestStrength);
         lowestStrength = Math.min(this.strength, lowestStrength);
