@@ -47,7 +47,7 @@ public class StatsActivity extends AppCompatActivity implements Ballo.Events {
         leaderboardBtn = (Button) findViewById(R.id.leaderboardBtn);
 
 
-        Ballo ballo = Ballo.getBallo(this);
+        ballo = Ballo.getBallo(this);
 
         age.setText("" + ballo.getAge());
         bounce.setText("" + ballo.getTimesBounced());

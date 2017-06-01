@@ -49,10 +49,6 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Location mLastLocation;
     private GoogleApiClient mGoogleApiClient;
     private static final int LOC_REQUEST_CODE = 0;
-    private int mSelectedColor = -16777216;
-    private Polyline currentLine;
-    private List<Polyline> polylines = new ArrayList<Polyline>();
-    private boolean isPenning = false;
     private double dist;
     private Ballo ballo;
 
@@ -124,9 +120,6 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     protected void onPause() {
-//        ballo.walk(dist);
-//        Ballo.saveBallo(this, ballo);
-        Log.v("WALK", "ON PAUSE");
         ballo.walk(1);
         Ballo.saveBallo(this, ballo);
         dist = 0;
@@ -197,11 +190,6 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
         ballo.walk(currDist);
 
         mLastLocation = location;
-        if (isPenning) {
-            List<LatLng> polyPoints = currentLine.getPoints();
-            polyPoints.add(getLatLng(location));
-            currentLine.setPoints(polyPoints);
-        }
     }
 
     private double distance(double lat1, double lon1, double lat2, double lon2) {
@@ -264,17 +252,6 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
          mMap.moveCamera(CameraUpdateFactory.zoomTo(13));
     }
 
-    public void newPolyline() {
-        PolylineOptions temp = new PolylineOptions()
-                .color(mSelectedColor)
-                .add(getLatLng(mLastLocation));
-        currentLine = mMap.addPolyline(temp);
-    }
-
-    public void endPolyline() {
-        polylines.add(currentLine);
-    }
-
     @Override
     public void onUpdate() {
         
@@ -291,7 +268,7 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
         hungerText.setText(String.format(Locale.ENGLISH, "Hunger: %d", ballo.getHappiness()));
 
         Bitmap markerImageFullsize = BitmapFactory.decodeResource(getResources(), getResources()
-                .getIdentifier(ballo.getImgURL(), "drawable", getPackageName()));
+                .getIdentifier(ballo.getExerciseURL(), "drawable", getPackageName()));
         balloMarkerImage = BitmapDescriptorFactory.fromBitmap(
                 Bitmap.createScaledBitmap(markerImageFullsize, MARKER_SIZE, MARKER_SIZE, false));
 
