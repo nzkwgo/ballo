@@ -21,17 +21,14 @@ import java.util.TimerTask;
  * happiness, and strength. The user may choose to exercise, feed, or play with the Ballo, or visit
  * the ballo's stats or leaderboard.
  */
-public class HomeActivity extends AppCompatActivity {
-    private static final long DECAY_TIMER_MS = 1000 * 60 * 5; // 5 minutes
-
+public class HomeActivity extends AppCompatActivity implements Ballo.Events {
     private Ballo ballo;
     private TextView name;
     private ProgressBar hunger;
     private ProgressBar happiness;
     private TextView strength;
     private ImageView balloAvatar;
-
-    private Timer decayTimer;
+    private TextView status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +41,7 @@ public class HomeActivity extends AppCompatActivity {
         happiness = (ProgressBar) findViewById(R.id.happinessVal);
         strength = (TextView) findViewById(R.id.strengthVal);
         balloAvatar = (ImageView) findViewById(R.id.ballo);
+        status = (TextView) findViewById(R.id.status);
 
         // Set so you can't set the seekbar
 //        hunger.setOnTouchListener(new View.OnTouchListener() {
@@ -84,49 +82,20 @@ public class HomeActivity extends AppCompatActivity {
 
         // Don't re-instantiate if ballo already exists (can occur if the screen orientation
         // changes, the phone is put to sleep, etc).
-        if (ballo != null) {
-            return;
+        if (ballo == null) {
+            ballo = Ballo.getBallo(this);
         }
 
         // Load ballo if one exists
-        ballo = Ballo.getBallo(this);
-
-        if (decayTimer != null) {
-            decayTimer.cancel();
-            decayTimer.purge();
-            decayTimer = null;
-        }
-
-        // Set updater
-        decayTimer = new Timer();
-        TimerTask decayTask = new TimerTask() {
-            @Override
-            public void run() {
-                // Decay
-                ballo.decay();
-
-                // Update display
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        updateDisplay();
-                    }
-                });
-
-                // Store updated ballo in preferences
-                Ballo.saveBallo(HomeActivity.this, ballo);
-            }
-        };
-        decayTimer.schedule(decayTask, 0, DECAY_TIMER_MS);
+        ballo.setEventHandler(this);
+        onUpdate();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (decayTimer != null) {
-            decayTimer.cancel();
-            decayTimer.purge();
-        }
+        ballo.clearEventHandler();
+        ballo.destroy();
         ballo = null;
     }
 
@@ -161,12 +130,25 @@ public class HomeActivity extends AppCompatActivity {
         return true;
     }
     // Updates the screen to reflect ballo's current state.
-    private void updateDisplay() {
-        hunger.setProgress(ballo.getHunger());
-        happiness.setProgress(ballo.getHappiness());
-        strength.setText(String.valueOf(ballo.getStrength()));
-        name.setText(ballo.getName());
-        balloAvatar.setImageResource(
-                getResources().getIdentifier(ballo.getImgURL(), "drawable", getPackageName()));
+
+    @Override
+    public void onUpdate() {
+        if (ballo == null) {
+            return;
+        }
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                hunger.setProgress(ballo.getHunger());
+                happiness.setProgress(ballo.getHappiness());
+                strength.setText(String.valueOf(ballo.getStrength()));
+                name.setText(ballo.getName());
+                status.setText(ballo.getStatusText());
+                balloAvatar.setImageResource(getResources()
+                        .getIdentifier(ballo.getImgURL(), "drawable", getPackageName()));
+            }
+        });
+        Ballo.saveBallo(this, ballo);
     }
 }
