@@ -159,7 +159,7 @@ public class Ballo {
     //Changes Ballo's stats based on a quarter mile's worth of walking.
     //Should be called after walking a quarter mile
     public void walk(double distance) {
-        if (distance == Double.NaN) {
+        if (Double.isNaN(distance)) {
             return;
         }
 
@@ -280,7 +280,7 @@ public class Ballo {
 
     //Sets hunger. Cannot exceed 100. Ballo dies when hunger drops below 0
     private void setHunger(double hunger) {
-        if (hunger == Double.NaN) {
+        if (Double.isNaN(hunger)) {
             return;
         }
 
@@ -301,7 +301,7 @@ public class Ballo {
 
     //Sets happiness. Cannot exceed 100. Ballo dies when happiness drops below 0
     private void setHappiness(double happiness) {
-        if (happiness == Double.NaN) {
+        if (Double.isNaN(happiness)) {
             return;
         }
 
@@ -322,7 +322,7 @@ public class Ballo {
 
     //Sets strength. Ballo dies when strength drops below 0
     private void setStrength(double strength) {
-        if (strength == Double.NaN) {
+        if (Double.isNaN(strength)) {
             return;
         }
 
