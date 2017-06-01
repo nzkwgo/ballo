@@ -261,6 +261,11 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onUpdate() {
+
+        if (ballo.isDead()) {
+            startActivity(new Intent(WalkActivity.this, StatsActivity.class));
+        }
+
         strengthText.setText(String.format(Locale.ENGLISH, "Strength: %d", ballo.getStrength()));
         happinessText.setText(String.format(Locale.ENGLISH, "Happiness: %d", ballo.getHappiness()));
         hungerText.setText(String.format(Locale.ENGLISH, "Hunger: %d", ballo.getHappiness()));
