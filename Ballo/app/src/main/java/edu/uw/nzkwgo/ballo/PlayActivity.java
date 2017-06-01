@@ -12,6 +12,9 @@ import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 public class PlayActivity extends AppCompatActivity implements SensorEventListener{
 
@@ -42,6 +45,9 @@ public class PlayActivity extends AppCompatActivity implements SensorEventListen
             mSensorMgr.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         }
 
+        TextView playVal = (TextView) findViewById(R.id.playVal);
+        playVal.setText("Happiness: " + ballo.getHappiness() + " Strength: " + ballo.getStrength());
+
         findViewById(R.id.homeBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,6 +75,10 @@ public class PlayActivity extends AppCompatActivity implements SensorEventListen
                     //Shook
                     bounceAnim();
                     ballo.bounce();
+
+                    TextView playVal = (TextView) findViewById(R.id.playVal);
+                    playVal.setText("Happiness: " + ballo.getHappiness() + " Strength: " + ballo.getStrength());
+
                     Ballo.saveBallo(this, ballo);
                 }
             }

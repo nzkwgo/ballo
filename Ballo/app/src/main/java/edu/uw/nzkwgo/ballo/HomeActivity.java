@@ -27,6 +27,7 @@ public class HomeActivity extends AppCompatActivity {
     private ProgressBar happiness;
     private TextView strength;
     private ImageView balloAvatar;
+    private TextView status;
 
     private Timer decayTimer;
 
@@ -41,6 +42,7 @@ public class HomeActivity extends AppCompatActivity {
         happiness = (ProgressBar) findViewById(R.id.happinessVal);
         strength = (TextView) findViewById(R.id.strengthVal);
         balloAvatar = (ImageView) findViewById(R.id.ballo);
+        status = (TextView) findViewById(R.id.status);
 
         // Set so you can't set the seekbar
 //        hunger.setOnTouchListener(new View.OnTouchListener() {
@@ -133,6 +135,7 @@ public class HomeActivity extends AppCompatActivity {
         happiness.setProgress(ballo.getHappiness());
         strength.setText(String.valueOf(ballo.getStrength()));
         name.setText(ballo.getName());
+        status.setText(ballo.getStatusText());
         balloAvatar.setImageResource(
                 getResources().getIdentifier(ballo.getImgURL(), "drawable", getPackageName()));
     }
