@@ -131,7 +131,7 @@ public class Ballo {
             setStrength(strength - 1);
         }
         timesBounced++;
-        updateImg();
+        //updateImg();
     }
 
     //Changes Ballo's stats based on a quarter mile's worth of walking.
@@ -312,6 +312,8 @@ public class Ballo {
             imgURL = BASIC_BALLO;
             statusText = "Ballo is doing good! Ballo loves you.";
 
+        } else if (hunger <= 0 || happiness <= 0 || strength <= 0) {
+            imgURL = DEAD_BALLO;
         } else if (hunger < 50 && hunger <= happiness && hunger <= strength) {
             imgURL = HUNGRY_BALLO;
             statusText = "Ballo's starving. Feed him some food.";

@@ -1,5 +1,7 @@
 package edu.uw.nzkwgo.ballo;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
@@ -36,6 +38,7 @@ public class PlayActivity extends AppCompatActivity implements SensorEventListen
         ballo = Ballo.getBallo(this);
 
         view = (DrawingSurfaceView)findViewById(R.id.drawingView);
+        ballo.cy = view.getHeight() - 400;
 
         mSensorMgr = (SensorManager) getSystemService(SENSOR_SERVICE);
         // Listen for shakes
@@ -73,7 +76,9 @@ public class PlayActivity extends AppCompatActivity implements SensorEventListen
                 if (acceleration > SHAKE_THRESHOLD) {
                     mLastShakeTime = curTime;
                     //Shook
-                    bounceAnim();
+                    view.ballo = ballo;
+                    view.ballo.cy = view.getHeight() - 400;
+                    bounceAnim(acceleration);
                     ballo.bounce();
 
                     TextView playVal = (TextView) findViewById(R.id.playVal);
@@ -85,18 +90,30 @@ public class PlayActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
-    public void bounceAnim() {
-        view.ballo.setImgURL("excited_ballo");
-
+    public void bounceAnim(double acceleration) {
         ObjectAnimator upAnim = ObjectAnimator.ofFloat(view.ballo, "Cy", 500);
         upAnim.setDuration(500);
+        upAnim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                view.ballo.setImgURL("excited_ballo");
+            }
+        });
+
         ObjectAnimator downAnim = ObjectAnimator.ofFloat(view.ballo, "Cy", view.getHeight() - 400);
         downAnim.setDuration(400);
+        downAnim.addListener(new AnimatorListenerAdapter() {
+             @Override
+             public void onAnimationEnd(Animator animation) {
+                 super.onAnimationEnd(animation);
+                 view.ballo.updateImg();
+             }
+        });
 
-        AnimatorSet set = new AnimatorSet();
+                AnimatorSet set = new AnimatorSet();
         set.playSequentially(upAnim, downAnim);
         set.start();
-        view.ballo.updateImg();
     }
 
     @Override
