@@ -4,7 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class StatsActivity extends AppCompatActivity {
+public class StatsActivity extends AppCompatActivity implements Ballo.Events {
     private TextView age;
     private TextView bounce;
     private TextView distance;
@@ -38,6 +38,7 @@ public class StatsActivity extends AppCompatActivity {
         lowestStrength = (TextView) findViewById(R.id.stats_lowest_strength);
 
         ballo = new Ballo();
+        ballo.setEventHandler(this);
         age.setText("" + ballo.getAge());
         bounce.setText("" + ballo.getTimesBounced());
         distance.setText("" + ballo.getDistanceWalked());
@@ -46,5 +47,10 @@ public class StatsActivity extends AppCompatActivity {
         highestStrength.setText("" + ballo.getHighestStrength());
         lowestHunger.setText("" + ballo.getLowestHunger());
         lowestStrength.setText("" + ballo.getLowestStrength());
+    }
+
+    @Override
+    public void onUpdate() {
+        Ballo.saveBallo(this, ballo);
     }
 }
