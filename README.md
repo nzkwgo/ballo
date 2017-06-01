@@ -18,7 +18,7 @@ Strength decays with time, but also in relation to the Ballo being played with i
 
 ## Team Members
 
-Noah Ezekwugo
-Kodlee Yin
-Eui Yul Song
-Tiffany Chen
+- Noah Ezekwugo
+- Kodlee Yin
+- Eui Yul Song
+- Tiffany Chen

@@ -277,8 +277,13 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onUpdate() {
+        
         if (ballo == null) {
             return;
+        }
+      
+        if (ballo.isDead()) {
+            startActivity(new Intent(WalkActivity.this, StatsActivity.class));
         }
 
         strengthText.setText(String.format(Locale.ENGLISH, "Strength: %d", ballo.getStrength()));
