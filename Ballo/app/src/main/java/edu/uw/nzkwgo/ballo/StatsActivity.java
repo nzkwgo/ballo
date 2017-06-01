@@ -26,10 +26,10 @@ public class StatsActivity extends AppCompatActivity {
         fed = (TextView) findViewById(R.id.stats_fed);
         lowestHappiness = (TextView) findViewById(R.id.stats_lowest_happiness);
         highestStrength = (TextView) findViewById(R.id.stats_highest_strength);
-        lowestHunger = (TextView) findViewById(R.id.stats_lowest_health);
+        lowestHunger = (TextView) findViewById(R.id.stats_lowest_hunger);
         lowestStrength = (TextView) findViewById(R.id.stats_lowest_strength);
 
-        Ballo ballo = new Ballo();
+        Ballo ballo = Ballo.getBallo(this);
         age.setText("" + ballo.getAge());
         bounce.setText("" + ballo.getTimesBounced());
         distance.setText("" + ballo.getDistanceWalked());
