@@ -117,6 +117,10 @@ public class PlayActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     public void onUpdate() {
+        if (ballo == null) {
+            return;
+        }
+
         TextView playVal = (TextView) findViewById(R.id.playVal);
         playVal.setText("Hunger: " + ballo.getHunger() + " Happiness: " + ballo.getHappiness() + " Strength: " + ballo.getStrength());
         Ballo.saveBallo(this, ballo);

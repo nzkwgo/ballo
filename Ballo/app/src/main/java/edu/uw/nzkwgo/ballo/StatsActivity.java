@@ -52,6 +52,10 @@ public class StatsActivity extends AppCompatActivity implements Ballo.Events {
 
     @Override
     public void onUpdate() {
+        if (ballo == null) {
+            return;
+        }
+
         Ballo.saveBallo(this, ballo);
     }
 }
