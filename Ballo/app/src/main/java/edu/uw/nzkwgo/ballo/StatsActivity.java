@@ -1,7 +1,10 @@
 package edu.uw.nzkwgo.ballo;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class StatsActivity extends AppCompatActivity implements Ballo.Events {
@@ -13,6 +16,9 @@ public class StatsActivity extends AppCompatActivity implements Ballo.Events {
     private TextView highestStrength;
     private TextView lowestHunger;
     private TextView lowestStrength;
+    private TextView deathMessage;
+    private Button returnBtn;
+    private Button leaderboardBtn;
 
     private Ballo ballo;
 
@@ -36,6 +42,9 @@ public class StatsActivity extends AppCompatActivity implements Ballo.Events {
         highestStrength = (TextView) findViewById(R.id.stats_highest_strength);
         lowestHunger = (TextView) findViewById(R.id.stats_lowest_hunger);
         lowestStrength = (TextView) findViewById(R.id.stats_lowest_strength);
+        deathMessage = (TextView) findViewById(R.id.deathMessage);
+        returnBtn = (Button) findViewById(R.id.returnBtn);
+        leaderboardBtn = (Button) findViewById(R.id.leaderboardBtn);
 
 
         Ballo ballo = Ballo.getBallo(this);
@@ -48,6 +57,33 @@ public class StatsActivity extends AppCompatActivity implements Ballo.Events {
         highestStrength.setText("" + ballo.getHighestStrength());
         lowestHunger.setText("" + ballo.getLowestHunger());
         lowestStrength.setText("" + ballo.getLowestStrength());
+
+        if (ballo.isDead()) {
+            deathMessage.setText(ballo.getStatusText());
+            returnBtn.setText("Restart");
+            returnBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Ballo newBallo = new Ballo();
+                    Ballo.saveBallo(getApplicationContext(), newBallo);
+                    startActivity(new Intent(StatsActivity.this, HomeActivity.class));
+                }
+            });
+        } else {
+            returnBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(StatsActivity.this, HomeActivity.class));
+                }
+            });
+        }
+
+        leaderboardBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(StatsActivity.this, LeaderboardActivity.class));
+            }
+        });
     }
 
     @Override

@@ -1,8 +1,11 @@
 package edu.uw.nzkwgo.ballo;
 
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -18,6 +21,8 @@ public class LeaderboardActivity extends AppCompatActivity {
     }
 
     private final LeaderboardListAdapterWrapper adapterWrapper;
+    private Button backBtn;
+    private Ballo ballo;
 
     public LeaderboardActivity() {
         adapterWrapper = new LeaderboardListAdapterWrapper();
@@ -53,6 +58,27 @@ public class LeaderboardActivity extends AppCompatActivity {
                 notifyDataSetChanged();
             }
         });
+
+        backBtn = (Button) findViewById(R.id.leadBackBtn);
+        ballo = Ballo.getBallo(this);
+
+        if (ballo.isDead()) {
+            backBtn.setText("Stats");
+            backBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(LeaderboardActivity.this, StatsActivity.class));
+                }
+            });
+        } else {
+            backBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(LeaderboardActivity.this, HomeActivity.class));
+                }
+            });
+        }
+
     }
 
     private void notifyDataSetChanged() {
